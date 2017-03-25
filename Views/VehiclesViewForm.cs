@@ -181,6 +181,7 @@ namespace Vehicles.Views
             {
                 addVehicleToView(vehicle);
             }
+            (MdiParent as MainForm).updateStatusBar();
             Text = "VehiclesList " + getFilterModeString(activeFilterMode);
         }
 

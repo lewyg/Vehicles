@@ -21,6 +21,7 @@ namespace Vehicles.Forms
         {
             if (VehicleAdded != null)
                 VehicleAdded(vehicle, EventArgs.Empty);
+            updateStatusBar();
         }
 
         public EventHandler VehicleRemoved;
@@ -28,6 +29,7 @@ namespace Vehicles.Forms
         {
             if (VehicleRemoved != null)
                 VehicleRemoved(index, EventArgs.Empty);
+            updateStatusBar();
         }
 
         public EventHandler VehicleModified;
@@ -35,6 +37,7 @@ namespace Vehicles.Forms
         {
             if (VehicleModified != null)
                 VehicleModified(index, EventArgs.Empty);
+            updateStatusBar();
         }
 
         private void loadVehicles()
@@ -108,6 +111,22 @@ namespace Vehicles.Forms
                 view.Dispose();
                 OnMdiChildrenAmuontChanged(MdiChildren.Count());
             }
+        }
+
+        public void updateStatusBar()
+        {
+            var view = ActiveMdiChild;
+            if (view != null)
+            {
+                numberOfVehiclesStripStatusLabel.Text =
+                    String.Format("Number of vehicles in active view: {0}",
+                                  (view as VehiclesViewForm).filteredVehicles.Count);
+            }
+        }
+
+        private void MainForm_MdiChildActivate(object sender, EventArgs e)
+        {
+            updateStatusBar();
         }
     }
 }

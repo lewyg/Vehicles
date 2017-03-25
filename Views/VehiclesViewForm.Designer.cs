@@ -133,14 +133,14 @@
             this.filterMaxSpeedAboveToolStripMenuItem,
             this.filterMaxSpeedNoneToolStripMenuItem});
             this.maxSpeedToolStripMenuItem.Name = "maxSpeedToolStripMenuItem";
-            this.maxSpeedToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.maxSpeedToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.maxSpeedToolStripMenuItem.Text = "MaxSpeed";
             // 
             // filterMaxSpeedBelowToolStripMenuItem
             // 
             this.filterMaxSpeedBelowToolStripMenuItem.CheckOnClick = true;
             this.filterMaxSpeedBelowToolStripMenuItem.Name = "filterMaxSpeedBelowToolStripMenuItem";
-            this.filterMaxSpeedBelowToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.filterMaxSpeedBelowToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.filterMaxSpeedBelowToolStripMenuItem.Text = "< 100 km/h";
             this.filterMaxSpeedBelowToolStripMenuItem.Click += new System.EventHandler(this.filterMaxSpeedFilterToolStripMenuItem_Click);
             // 
@@ -148,7 +148,7 @@
             // 
             this.filterMaxSpeedAboveToolStripMenuItem.CheckOnClick = true;
             this.filterMaxSpeedAboveToolStripMenuItem.Name = "filterMaxSpeedAboveToolStripMenuItem";
-            this.filterMaxSpeedAboveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.filterMaxSpeedAboveToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.filterMaxSpeedAboveToolStripMenuItem.Text = ">= 100 km/h";
             this.filterMaxSpeedAboveToolStripMenuItem.Click += new System.EventHandler(this.filterMaxSpeedFilterToolStripMenuItem_Click);
             // 
@@ -158,7 +158,7 @@
             this.filterMaxSpeedNoneToolStripMenuItem.CheckOnClick = true;
             this.filterMaxSpeedNoneToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.filterMaxSpeedNoneToolStripMenuItem.Name = "filterMaxSpeedNoneToolStripMenuItem";
-            this.filterMaxSpeedNoneToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.filterMaxSpeedNoneToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.filterMaxSpeedNoneToolStripMenuItem.Text = "None";
             this.filterMaxSpeedNoneToolStripMenuItem.Click += new System.EventHandler(this.filterMaxSpeedFilterToolStripMenuItem_Click);
             // 
