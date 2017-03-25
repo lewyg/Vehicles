@@ -46,7 +46,7 @@ namespace Vehicles.Controls.Editors
         private PictureBox getPictureBox(Image image)
         {
             var pictureBox = new PictureBox();
-            pictureBox.Size = new Size(32, 32);
+            pictureBox.Size = new Size(48, 48);
             pictureBox.SizeMode = System.Windows.Forms.PictureBoxSizeMode.StretchImage;
             pictureBox.Image = image;
             pictureBox.Click += new System.EventHandler(this.pictureBox_Click);

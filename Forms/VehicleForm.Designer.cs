@@ -163,7 +163,7 @@
             this.vehicleTypeControl.Name = "vehicleTypeControl";
             this.vehicleTypeControl.Size = new System.Drawing.Size(74, 61);
             this.vehicleTypeControl.TabIndex = 1;
-            this.vehicleTypeControl.VehicleType = 1;
+            this.vehicleTypeControl.VehicleType = 2;
             this.vehicleTypeControl.VehicleTypeChanged += new System.EventHandler(this.vehicleTypeControl_VehicleTypeChanged);
             // 
             // VehicleForm
