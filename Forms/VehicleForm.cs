@@ -44,7 +44,9 @@ namespace Vehicles.Forms
         private void loadControlsDataFromVehicle()
         {
             brandTextBox.Text = vehicle.Brand;
-            productionDateDateTimePicker.Value = vehicle.ProductionDate.Date;
+            productionDateDateTimePicker.Value =
+                vehicle.ProductionDate.Date < productionDateDateTimePicker.MinDate ?
+                productionDateDateTimePicker.MinDate : vehicle.ProductionDate.Date;
             maxSpeedTextBox.Text = vehicle.MaxSpeed.ToString();
             vehicleTypeTextBox.Text = vehicle.Type.ToString();
         }

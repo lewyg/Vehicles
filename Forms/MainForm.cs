@@ -16,6 +16,27 @@ namespace Vehicles.Forms
     {
         public List<Vehicle> vehicles = null;
 
+        public EventHandler VehicleAdded;
+        public void OnVehicleAdded(Vehicle vehicle)
+        {
+            if (VehicleAdded != null)
+                VehicleAdded(vehicle, EventArgs.Empty);
+        }
+
+        public EventHandler VehicleRemoved;
+        public void OnVehicleRemoved(int index)
+        {
+            if (VehicleRemoved != null)
+                VehicleRemoved(index, EventArgs.Empty);
+        }
+
+        public EventHandler VehicleModified;
+        public void OnVehicleModified(int index)
+        {
+            if (VehicleModified != null)
+                VehicleModified(index, EventArgs.Empty);
+        }
+
         private void loadVehicles()
         {
             var brand = new List<string> { "BMW", "Audi", "Opel", "Skoda", "Fiat" };
@@ -35,29 +56,6 @@ namespace Vehicles.Forms
             openNewView();
         }
 
-        private void OnMdiChildrenChanged(int count)
-        {
-            viewCloseToolStripMenuItem.Enabled = count > 1;
-        }
-
-        private void openNewView()
-        {
-            var view = new VehiclesViewForm();
-            view.MdiParent = this;
-            view.Show();
-            OnMdiChildrenChanged(MdiChildren.Count());
-        }
-
-        private void closeActiveView()
-        {
-            var view = ActiveMdiChild;
-            if (view != null)
-            {
-                view.Dispose();
-                OnMdiChildrenChanged(MdiChildren.Count());
-            }
-        }
-
         private void viewNewToolStripMenuItem_Click(object sender, EventArgs e)
         {
             openNewView();
@@ -74,6 +72,39 @@ namespace Vehicles.Forms
                 "Vehicles info",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
+        }
+
+        private void OnMdiChildrenAmuontChanged(int count)
+        {
+            viewCloseToolStripMenuItem.Enabled = count > 1;
+        }
+
+        private void openNewView()
+        {
+            var view = new VehiclesViewForm();
+            view.MdiParent = this;
+
+            addEventHandlers(view);
+
+            view.Show();
+            OnMdiChildrenAmuontChanged(MdiChildren.Count());
+        }
+
+        private void addEventHandlers(VehiclesViewForm view)
+        {
+            VehicleAdded += view.vehicles_Add;
+            VehicleRemoved += view.vehicles_Remove;
+            VehicleModified += view.vehicles_Modify;
+        }
+
+        private void closeActiveView()
+        {
+            var view = ActiveMdiChild;
+            if (view != null)
+            {
+                view.Dispose();
+                OnMdiChildrenAmuontChanged(MdiChildren.Count());
+            }
         }
     }
 }

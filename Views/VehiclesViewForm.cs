@@ -24,6 +24,24 @@ namespace Vehicles.Views
             }
         }
 
+        public void vehicles_Add(object sender, EventArgs e)
+        {
+            var vehicle = (Vehicle)sender;
+            addVehicleToView(vehicle);
+        }
+
+        public void vehicles_Remove(object sender, EventArgs e)
+        {
+            var index = (int)sender;
+            removeVehicleFromView(index);
+        }
+
+        public void vehicles_Modify(object sender, EventArgs e)
+        {
+            var index = (int)sender;
+            modifyVehicleInView(index);
+        }
+
         public VehiclesViewForm()
         {
             InitializeComponent();
@@ -45,6 +63,10 @@ namespace Vehicles.Views
             {
                 e.Cancel = true;
             }
+            else
+            {
+                removeEventHandlers();
+            }
         }
 
         private void vehicleAddToolStripMenuItem_Click(object sender, EventArgs e)
@@ -52,31 +74,38 @@ namespace Vehicles.Views
             var frm = new VehicleForm();
             if (frm.ShowDialog() == DialogResult.OK)
             {
-                addVehicle(frm.vehicle);
+                vehicles.Add(frm.vehicle);
+                (MdiParent as MainForm).OnVehicleAdded(frm.vehicle);
             }
-        }
-
-        private void vehicleModifyToolStripMenuItem_Click(object sender, EventArgs e)
-        {
-
         }
 
         private void vehicleRemoveToolStripMenuItem_Click(object sender, EventArgs e)
         {
             if (vehiclesListView.SelectedItems.Count == 0)
-            {
                 return;
-            }
 
             var item = vehiclesListView.SelectedItems[0];
-
-            removeVehicle(item);
+            var index = vehiclesListView.Items.IndexOf(item);
+            vehicles.RemoveAt(index);
+            (MdiParent as MainForm).OnVehicleRemoved(index);
         }
 
-        private void addVehicle(Vehicle vehicle)
+        private void vehicleModifyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            vehicles.Add(vehicle);
-            addVehicleToView(vehicle);
+            if (vehiclesListView.SelectedItems.Count == 0)
+                return;
+
+            var item = vehiclesListView.SelectedItems[0];
+            var index = vehiclesListView.Items.IndexOf(item);
+            var frm = new VehicleForm(vehicles[index]);
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                vehicles[index].Brand = frm.vehicle.Brand;
+                vehicles[index].MaxSpeed = frm.vehicle.MaxSpeed;
+                vehicles[index].ProductionDate = frm.vehicle.ProductionDate;
+                vehicles[index].Type = frm.vehicle.Type;
+                (MdiParent as MainForm).OnVehicleModified(index);
+            }
         }
 
         private void addVehicleToView(Vehicle vehicle)
@@ -87,26 +116,17 @@ namespace Vehicles.Views
             vehiclesListView.Items.Add(item);
         }
 
-        private void removeVehicle(ListViewItem item)
-        {
-            var index = vehiclesListView.Items.IndexOf(item);
-            vehicles.RemoveAt(index);
-            removeVehicleFromView(index);
-        }
-
         private void removeVehicleFromView(int index)
         {
             vehiclesListView.Items.RemoveAt(index);
         }
 
-        private void modifyVehicle(ListViewItem item, Vehicle vehicle)
+        private void modifyVehicleInView(int index)
         {
-
-        }
-
-        private void modifyVehicleInView(int index, Vehicle vehicle)
-        {
-
+            var item = vehiclesListView.Items[index];
+            var vehicle = vehicles[index];
+            item.Tag = vehicle;
+            updateItemInView(item);
         }
 
         private void updateItemInView(ListViewItem item)
@@ -118,6 +138,14 @@ namespace Vehicles.Views
             item.SubItems[1].Text = vehicle.MaxSpeed.ToString();
             item.SubItems[2].Text = vehicle.ProductionDate.ToShortDateString();
             item.SubItems[3].Text = vehicle.Type.ToString();
+        }
+
+        private void removeEventHandlers()
+        {
+            var parent = MdiParent as MainForm;
+            parent.VehicleAdded -= vehicles_Add;
+            parent.VehicleRemoved -= vehicles_Remove;
+            parent.VehicleModified -= vehicles_Modify;
         }
     }
 }

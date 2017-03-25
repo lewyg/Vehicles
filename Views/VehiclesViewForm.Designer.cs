@@ -100,7 +100,6 @@
             this.vehicleAddToolStripMenuItem,
             this.vehicleRemoveToolStripMenuItem,
             this.vehicleModifyToolStripMenuItem});
-            this.vehicleToolStripMenuItem.MergeAction = System.Windows.Forms.MergeAction.Insert;
             this.vehicleToolStripMenuItem.MergeIndex = 1;
             this.vehicleToolStripMenuItem.Name = "vehicleToolStripMenuItem";
             this.vehicleToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
@@ -131,7 +130,6 @@
             // 
             this.filterToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.maxSpeedToolStripMenuItem});
-            this.filterToolStripMenuItem.MergeAction = System.Windows.Forms.MergeAction.Insert;
             this.filterToolStripMenuItem.MergeIndex = 2;
             this.filterToolStripMenuItem.Name = "filterToolStripMenuItem";
             this.filterToolStripMenuItem.Size = new System.Drawing.Size(45, 20);
