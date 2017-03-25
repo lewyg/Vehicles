@@ -40,6 +40,7 @@
             this.vehicleTypeGroupBox = new System.Windows.Forms.GroupBox();
             this.speedUnitLabel = new System.Windows.Forms.Label();
             this.vehicleErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
+            this.vehicleTypeTextBox = new System.Windows.Forms.TextBox();
             this.vehicleTypeControl = new Vehicles.Controls.VehicleTypeControl();
             this.vehicleTypeGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.vehicleErrorProvider)).BeginInit();
@@ -47,7 +48,7 @@
             // 
             // brandTextBox
             // 
-            this.brandTextBox.Location = new System.Drawing.Point(187, 12);
+            this.brandTextBox.Location = new System.Drawing.Point(194, 12);
             this.brandTextBox.Name = "brandTextBox";
             this.brandTextBox.Size = new System.Drawing.Size(168, 20);
             this.brandTextBox.TabIndex = 0;
@@ -56,7 +57,7 @@
             // 
             // productionDateDateTimePicker
             // 
-            this.productionDateDateTimePicker.Location = new System.Drawing.Point(187, 38);
+            this.productionDateDateTimePicker.Location = new System.Drawing.Point(194, 38);
             this.productionDateDateTimePicker.MaxDate = new System.DateTime(2017, 12, 31, 0, 0, 0, 0);
             this.productionDateDateTimePicker.MinDate = new System.DateTime(1950, 1, 1, 0, 0, 0, 0);
             this.productionDateDateTimePicker.Name = "productionDateDateTimePicker";
@@ -65,7 +66,7 @@
             // 
             // maxSpeedTextBox
             // 
-            this.maxSpeedTextBox.Location = new System.Drawing.Point(187, 64);
+            this.maxSpeedTextBox.Location = new System.Drawing.Point(194, 64);
             this.maxSpeedTextBox.Name = "maxSpeedTextBox";
             this.maxSpeedTextBox.Size = new System.Drawing.Size(100, 20);
             this.maxSpeedTextBox.TabIndex = 2;
@@ -75,7 +76,7 @@
             // brandLabel
             // 
             this.brandLabel.AutoSize = true;
-            this.brandLabel.Location = new System.Drawing.Point(80, 15);
+            this.brandLabel.Location = new System.Drawing.Point(87, 15);
             this.brandLabel.Name = "brandLabel";
             this.brandLabel.Size = new System.Drawing.Size(67, 13);
             this.brandLabel.TabIndex = 4;
@@ -84,7 +85,7 @@
             // productionDateLabel
             // 
             this.productionDateLabel.AutoSize = true;
-            this.productionDateLabel.Location = new System.Drawing.Point(80, 41);
+            this.productionDateLabel.Location = new System.Drawing.Point(87, 41);
             this.productionDateLabel.Name = "productionDateLabel";
             this.productionDateLabel.Size = new System.Drawing.Size(85, 13);
             this.productionDateLabel.TabIndex = 5;
@@ -93,7 +94,7 @@
             // maxSpeedLabel
             // 
             this.maxSpeedLabel.AutoSize = true;
-            this.maxSpeedLabel.Location = new System.Drawing.Point(80, 67);
+            this.maxSpeedLabel.Location = new System.Drawing.Point(87, 67);
             this.maxSpeedLabel.Name = "maxSpeedLabel";
             this.maxSpeedLabel.Size = new System.Drawing.Size(62, 13);
             this.maxSpeedLabel.TabIndex = 6;
@@ -101,7 +102,7 @@
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(187, 99);
+            this.saveButton.Location = new System.Drawing.Point(194, 99);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(75, 23);
             this.saveButton.TabIndex = 8;
@@ -112,7 +113,7 @@
             // cancelButton
             // 
             this.cancelButton.DialogResult = System.Windows.Forms.DialogResult.Cancel;
-            this.cancelButton.Location = new System.Drawing.Point(280, 99);
+            this.cancelButton.Location = new System.Drawing.Point(287, 99);
             this.cancelButton.Name = "cancelButton";
             this.cancelButton.Size = new System.Drawing.Size(75, 23);
             this.cancelButton.TabIndex = 9;
@@ -123,9 +124,10 @@
             // vehicleTypeGroupBox
             // 
             this.vehicleTypeGroupBox.Controls.Add(this.vehicleTypeControl);
+            this.vehicleTypeGroupBox.Controls.Add(this.vehicleTypeTextBox);
             this.vehicleTypeGroupBox.Location = new System.Drawing.Point(4, 1);
             this.vehicleTypeGroupBox.Name = "vehicleTypeGroupBox";
-            this.vehicleTypeGroupBox.Size = new System.Drawing.Size(66, 100);
+            this.vehicleTypeGroupBox.Size = new System.Drawing.Size(80, 100);
             this.vehicleTypeGroupBox.TabIndex = 11;
             this.vehicleTypeGroupBox.TabStop = false;
             this.vehicleTypeGroupBox.Text = "Vehicle type";
@@ -133,7 +135,7 @@
             // speedUnitLabel
             // 
             this.speedUnitLabel.AutoSize = true;
-            this.speedUnitLabel.Location = new System.Drawing.Point(293, 67);
+            this.speedUnitLabel.Location = new System.Drawing.Point(300, 67);
             this.speedUnitLabel.Name = "speedUnitLabel";
             this.speedUnitLabel.Size = new System.Drawing.Size(32, 13);
             this.speedUnitLabel.TabIndex = 12;
@@ -144,14 +146,25 @@
             this.vehicleErrorProvider.ContainerControl = this;
             this.vehicleErrorProvider.RightToLeft = true;
             // 
+            // vehicleTypeTextBox
+            // 
+            this.vehicleTypeTextBox.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.vehicleTypeTextBox.Location = new System.Drawing.Point(3, 77);
+            this.vehicleTypeTextBox.Name = "vehicleTypeTextBox";
+            this.vehicleTypeTextBox.ReadOnly = true;
+            this.vehicleTypeTextBox.Size = new System.Drawing.Size(74, 20);
+            this.vehicleTypeTextBox.TabIndex = 0;
+            this.vehicleTypeTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // vehicleTypeControl
             // 
             this.vehicleTypeControl.Dock = System.Windows.Forms.DockStyle.Fill;
             this.vehicleTypeControl.Location = new System.Drawing.Point(3, 16);
             this.vehicleTypeControl.Name = "vehicleTypeControl";
-            this.vehicleTypeControl.Size = new System.Drawing.Size(60, 81);
-            this.vehicleTypeControl.TabIndex = 0;
+            this.vehicleTypeControl.Size = new System.Drawing.Size(74, 61);
+            this.vehicleTypeControl.TabIndex = 1;
             this.vehicleTypeControl.VehicleType = 0;
+            this.vehicleTypeControl.VehicleTypeChanged += new System.EventHandler(this.vehicleTypeControl_VehicleTypeChanged);
             // 
             // VehicleForm
             // 
@@ -160,7 +173,7 @@
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.AutoValidate = System.Windows.Forms.AutoValidate.Disable;
             this.CancelButton = this.cancelButton;
-            this.ClientSize = new System.Drawing.Size(360, 135);
+            this.ClientSize = new System.Drawing.Size(367, 127);
             this.Controls.Add(this.speedUnitLabel);
             this.Controls.Add(this.vehicleTypeGroupBox);
             this.Controls.Add(this.cancelButton);
@@ -178,6 +191,7 @@
             this.Text = "Vehicle";
             this.Load += new System.EventHandler(this.VehicleForm_Load);
             this.vehicleTypeGroupBox.ResumeLayout(false);
+            this.vehicleTypeGroupBox.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.vehicleErrorProvider)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
@@ -195,8 +209,9 @@
         private System.Windows.Forms.Button saveButton;
         private System.Windows.Forms.Button cancelButton;
         private System.Windows.Forms.GroupBox vehicleTypeGroupBox;
-        private Controls.VehicleTypeControl vehicleTypeControl;
         private System.Windows.Forms.Label speedUnitLabel;
         private System.Windows.Forms.ErrorProvider vehicleErrorProvider;
+        private Controls.VehicleTypeControl vehicleTypeControl;
+        private System.Windows.Forms.TextBox vehicleTypeTextBox;
     }
 }

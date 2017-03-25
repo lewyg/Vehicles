@@ -29,7 +29,8 @@ namespace Vehicles.Controls
             }
         }
 
-        public EventHandler VehicleTypeChanged;
+        public event EventHandler VehicleTypeChanged;
+        //public EventHandler VehicleTypeChanged;
         public void OnVehicleTypeChanged()
         {
             if (VehicleTypeChanged != null)
@@ -44,7 +45,6 @@ namespace Vehicles.Controls
 
         private void VehicleType_Changed(object sender, EventArgs e)
         {
-            vehicleTypeTextBox.Text = ((Vehicles.Classes.VehicleType)VehicleType).ToString();
             vehicleTypePictureBox.Image = vehicleTypeImageList.Images[VehicleType];
         }
 

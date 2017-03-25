@@ -96,5 +96,10 @@ namespace Vehicles.Forms
         {
             vehicleErrorProvider.SetError((sender as Control), "");
         }
+
+        private void vehicleTypeControl_VehicleTypeChanged(object sender, EventArgs e)
+        {
+            vehicleTypeTextBox.Text = ((VehicleType)vehicleTypeControl.VehicleType).ToString();
+        }
     }
 }

@@ -80,7 +80,7 @@ namespace Vehicles.Forms
                 MessageBoxIcon.Information);
         }
 
-        private void OnMdiChildrenAmuontChanged(int count)
+        private void OnMdiChildrenNumberChanged(int count)
         {
             viewCloseToolStripMenuItem.Enabled = count > 1;
         }
@@ -93,7 +93,7 @@ namespace Vehicles.Forms
             addEventHandlers(view);
 
             view.Show();
-            OnMdiChildrenAmuontChanged(MdiChildren.Count());
+            OnMdiChildrenNumberChanged(MdiChildren.Count());
         }
 
         private void addEventHandlers(VehiclesViewForm view)
@@ -109,7 +109,7 @@ namespace Vehicles.Forms
             if (view != null)
             {
                 view.Dispose();
-                OnMdiChildrenAmuontChanged(MdiChildren.Count());
+                OnMdiChildrenNumberChanged(MdiChildren.Count());
             }
         }
 
