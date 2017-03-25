@@ -39,9 +39,12 @@ namespace Vehicles.Forms
 
         private void loadVehicles()
         {
-            var brand = new List<string> { "BMW", "Audi", "Opel", "Skoda", "Fiat" };
-            for (var i = 0; i < 5; i++)
-                vehicles.Add(new Vehicle(brand[i], DateTime.Now, 150, (int)VehicleType.Car));
+            vehicles.Add(new Vehicle("Opel Astra", DateTime.Now.AddYears(-10), 190, (int)VehicleType.Car));
+            vehicles.Add(new Vehicle("Audi A4", DateTime.Now.AddYears(-7), 200, (int)VehicleType.Car));
+            vehicles.Add(new Vehicle("Yamaha Neos", DateTime.Now.AddYears(-2), 90, (int)VehicleType.Motorbike));
+            vehicles.Add(new Vehicle("Skoda Fabia", DateTime.Now.AddYears(-14), 150, (int)VehicleType.Car));
+            vehicles.Add(new Vehicle("Volvo", DateTime.Now.AddYears(-9), 80, (int)VehicleType.Truck));
+            vehicles.Add(new Vehicle("Fiat 125p", DateTime.Now.AddYears(-30), 90, (int)VehicleType.Car));
         }
 
         public MainForm()
@@ -81,7 +84,7 @@ namespace Vehicles.Forms
 
         private void openNewView()
         {
-            var view = new VehiclesViewForm();
+            var view = new VehiclesViewForm(vehicles);
             view.MdiParent = this;
 
             addEventHandlers(view);

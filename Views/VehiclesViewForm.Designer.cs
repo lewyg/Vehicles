@@ -39,8 +39,8 @@
             this.vehicleModifyToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.filterToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.maxSpeedToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.filterMaxSpeedLessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
-            this.filterMaxSpeedOverToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.filterMaxSpeedBelowToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.filterMaxSpeedAboveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.filterMaxSpeedNoneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vehiclesMenuStrip = new System.Windows.Forms.MenuStrip();
             this.vehiclesMenuStrip.SuspendLayout();
@@ -90,7 +90,7 @@
             this.vehicleRemoveToolStripMenuItem,
             this.vehicleModifyToolStripMenuItem});
             this.vehicleToolStripMenuItem.MergeAction = System.Windows.Forms.MergeAction.Insert;
-            this.vehicleToolStripMenuItem.MergeIndex = 1;
+            this.vehicleToolStripMenuItem.MergeIndex = 2;
             this.vehicleToolStripMenuItem.Name = "vehicleToolStripMenuItem";
             this.vehicleToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
             this.vehicleToolStripMenuItem.Text = "Vehicle";
@@ -121,7 +121,7 @@
             this.filterToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.maxSpeedToolStripMenuItem});
             this.filterToolStripMenuItem.MergeAction = System.Windows.Forms.MergeAction.Insert;
-            this.filterToolStripMenuItem.MergeIndex = 2;
+            this.filterToolStripMenuItem.MergeIndex = 3;
             this.filterToolStripMenuItem.Name = "filterToolStripMenuItem";
             this.filterToolStripMenuItem.Size = new System.Drawing.Size(45, 20);
             this.filterToolStripMenuItem.Text = "Filter";
@@ -129,26 +129,28 @@
             // maxSpeedToolStripMenuItem
             // 
             this.maxSpeedToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.filterMaxSpeedLessToolStripMenuItem,
-            this.filterMaxSpeedOverToolStripMenuItem,
+            this.filterMaxSpeedBelowToolStripMenuItem,
+            this.filterMaxSpeedAboveToolStripMenuItem,
             this.filterMaxSpeedNoneToolStripMenuItem});
             this.maxSpeedToolStripMenuItem.Name = "maxSpeedToolStripMenuItem";
             this.maxSpeedToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.maxSpeedToolStripMenuItem.Text = "MaxSpeed";
             // 
-            // filterMaxSpeedLessToolStripMenuItem
+            // filterMaxSpeedBelowToolStripMenuItem
             // 
-            this.filterMaxSpeedLessToolStripMenuItem.CheckOnClick = true;
-            this.filterMaxSpeedLessToolStripMenuItem.Name = "filterMaxSpeedLessToolStripMenuItem";
-            this.filterMaxSpeedLessToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
-            this.filterMaxSpeedLessToolStripMenuItem.Text = "< 100 km/h";
+            this.filterMaxSpeedBelowToolStripMenuItem.CheckOnClick = true;
+            this.filterMaxSpeedBelowToolStripMenuItem.Name = "filterMaxSpeedBelowToolStripMenuItem";
+            this.filterMaxSpeedBelowToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.filterMaxSpeedBelowToolStripMenuItem.Text = "< 100 km/h";
+            this.filterMaxSpeedBelowToolStripMenuItem.Click += new System.EventHandler(this.filterMaxSpeedFilterToolStripMenuItem_Click);
             // 
-            // filterMaxSpeedOverToolStripMenuItem
+            // filterMaxSpeedAboveToolStripMenuItem
             // 
-            this.filterMaxSpeedOverToolStripMenuItem.CheckOnClick = true;
-            this.filterMaxSpeedOverToolStripMenuItem.Name = "filterMaxSpeedOverToolStripMenuItem";
-            this.filterMaxSpeedOverToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
-            this.filterMaxSpeedOverToolStripMenuItem.Text = ">= 100 km/h";
+            this.filterMaxSpeedAboveToolStripMenuItem.CheckOnClick = true;
+            this.filterMaxSpeedAboveToolStripMenuItem.Name = "filterMaxSpeedAboveToolStripMenuItem";
+            this.filterMaxSpeedAboveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.filterMaxSpeedAboveToolStripMenuItem.Text = ">= 100 km/h";
+            this.filterMaxSpeedAboveToolStripMenuItem.Click += new System.EventHandler(this.filterMaxSpeedFilterToolStripMenuItem_Click);
             // 
             // filterMaxSpeedNoneToolStripMenuItem
             // 
@@ -156,8 +158,9 @@
             this.filterMaxSpeedNoneToolStripMenuItem.CheckOnClick = true;
             this.filterMaxSpeedNoneToolStripMenuItem.CheckState = System.Windows.Forms.CheckState.Checked;
             this.filterMaxSpeedNoneToolStripMenuItem.Name = "filterMaxSpeedNoneToolStripMenuItem";
-            this.filterMaxSpeedNoneToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
+            this.filterMaxSpeedNoneToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.filterMaxSpeedNoneToolStripMenuItem.Text = "None";
+            this.filterMaxSpeedNoneToolStripMenuItem.Click += new System.EventHandler(this.filterMaxSpeedFilterToolStripMenuItem_Click);
             // 
             // vehiclesMenuStrip
             // 
@@ -179,7 +182,7 @@
             this.Controls.Add(this.vehiclesMenuStrip);
             this.MainMenuStrip = this.vehiclesMenuStrip;
             this.Name = "VehiclesViewForm";
-            this.Text = "Vehicles ListView";
+            this.Text = "VehiclesList";
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.VehiclesViewForm_FormClosing);
             this.Load += new System.EventHandler(this.VehiclesViewForm_Load);
             this.vehiclesMenuStrip.ResumeLayout(false);
@@ -202,8 +205,8 @@
         private System.Windows.Forms.ToolStripMenuItem vehicleModifyToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem filterToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem maxSpeedToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem filterMaxSpeedLessToolStripMenuItem;
-        private System.Windows.Forms.ToolStripMenuItem filterMaxSpeedOverToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem filterMaxSpeedBelowToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem filterMaxSpeedAboveToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem filterMaxSpeedNoneToolStripMenuItem;
         private System.Windows.Forms.MenuStrip vehiclesMenuStrip;
     }

@@ -14,45 +14,100 @@ namespace Vehicles.Views
 {
     public partial class VehiclesViewForm : Form
     {
-        public List<Vehicle> vehicles
+        private enum FilterMode
+        {   
+            None = 0,
+            MaxSpeedAbove = 1,
+            MaxSpeedBelow = 2
+        }
+        private ToolStripMenuItem activeFilterToolStripMenuItem;
+
+        private FilterMode activeFilterMode
         {
             get
             {
-                if (MdiParent != null)
-                    return (MdiParent as MainForm).vehicles;
-                return new List<Vehicle>();
+                if (filterMaxSpeedAboveToolStripMenuItem.Checked)
+                    return FilterMode.MaxSpeedAbove;
+                else if (filterMaxSpeedBelowToolStripMenuItem.Checked)
+                    return FilterMode.MaxSpeedBelow;
+                else
+                    return FilterMode.None;
+            }
+        }
+
+        public List<Vehicle> globalVehicles;
+
+        private List<Vehicle> localVehicles;
+
+        public List<Vehicle> filteredVehicles
+        {
+            get
+            {
+                var tempVehicles = localVehicles;
+
+                if (activeFilterMode == FilterMode.MaxSpeedAbove)
+                    tempVehicles = tempVehicles.Where(v => v.MaxSpeed < 100).ToList();
+                else if (activeFilterMode == FilterMode.MaxSpeedBelow)
+                    tempVehicles = tempVehicles.Where(v => v.MaxSpeed >= 100).ToList();
+                return tempVehicles;
             }
         }
 
         public void vehicles_Add(object sender, EventArgs e)
         {
             var vehicle = (Vehicle)sender;
-            addVehicleToView(vehicle);
+            localVehicles.Add(vehicle);
+            if (filteredVehicles.Contains(vehicle))
+                addVehicleToView(vehicle);
         }
 
         public void vehicles_Remove(object sender, EventArgs e)
         {
             var index = (int)sender;
-            removeVehicleFromView(index);
+            var vehicle = localVehicles[index];
+            var indexInFilteredVehicles = filteredVehicles.IndexOf(vehicle);
+            if (indexInFilteredVehicles != -1)
+                removeVehicleFromView(indexInFilteredVehicles);
+            localVehicles.RemoveAt(index);
         }
 
         public void vehicles_Modify(object sender, EventArgs e)
         {
             var index = (int)sender;
-            modifyVehicleInView(index);
+            var vehicleLocal = localVehicles[index];
+            var vehicleGlobal = globalVehicles[index];
+            var indexInLocalFilteredVehicles = filteredVehicles.IndexOf(vehicleLocal);
+
+            localVehicles[index] = vehicleGlobal;
+
+            var indexInGlobalFilteredVehicles = filteredVehicles.IndexOf(vehicleGlobal);
+
+            if (indexInLocalFilteredVehicles != -1)
+            {
+                if (filteredVehicles.Count < vehiclesListView.Items.Count)
+                    removeVehicleFromView(indexInLocalFilteredVehicles);
+                else
+                    modifyVehicleInView(indexInLocalFilteredVehicles);
+            }
+
+            if (indexInGlobalFilteredVehicles != -1)
+            {
+                if (filteredVehicles.Count > vehiclesListView.Items.Count)
+                    insertVehicleToView(vehicleGlobal, indexInGlobalFilteredVehicles);
+            }
         }
 
-        public VehiclesViewForm()
+        public VehiclesViewForm(List<Vehicle> _vehicles)
         {
+            globalVehicles = _vehicles;
+            localVehicles = _vehicles.Select(v => new Vehicle(v)).ToList();
             InitializeComponent();
         }
 
         private void VehiclesViewForm_Load(object sender, EventArgs e)
         {
-            foreach (var vehicle in vehicles)
-            {
-                addVehicleToView(vehicle);
-            }
+            activeFilterToolStripMenuItem = filterMaxSpeedNoneToolStripMenuItem;
+            refreshView();
         }
 
         private void VehiclesViewForm_FormClosing(object sender, FormClosingEventArgs e)
@@ -65,7 +120,7 @@ namespace Vehicles.Views
             }
             else
             {
-                removeEventHandlers();
+                unregisterEventHandlers();
             }
         }
 
@@ -74,7 +129,7 @@ namespace Vehicles.Views
             var frm = new VehicleForm();
             if (frm.ShowDialog() == DialogResult.OK)
             {
-                vehicles.Add(frm.vehicle);
+                globalVehicles.Add(frm.vehicle);
                 (MdiParent as MainForm).OnVehicleAdded(frm.vehicle);
             }
         }
@@ -85,8 +140,11 @@ namespace Vehicles.Views
                 return;
 
             var item = vehiclesListView.SelectedItems[0];
-            var index = vehiclesListView.Items.IndexOf(item);
-            vehicles.RemoveAt(index);
+            var indexInFilteredVehicles = vehiclesListView.Items.IndexOf(item);
+            var vehicle = filteredVehicles[indexInFilteredVehicles];
+            var index = localVehicles.IndexOf(vehicle);
+
+            globalVehicles.RemoveAt(index);
             (MdiParent as MainForm).OnVehicleRemoved(index);
         }
 
@@ -96,16 +154,39 @@ namespace Vehicles.Views
                 return;
 
             var item = vehiclesListView.SelectedItems[0];
-            var index = vehiclesListView.Items.IndexOf(item);
-            var frm = new VehicleForm(vehicles[index]);
+            var indexInFilteredVehicles = vehiclesListView.Items.IndexOf(item);
+            var vehicle = filteredVehicles[indexInFilteredVehicles];
+            var index = localVehicles.IndexOf(vehicle);
+
+            var frm = new VehicleForm(globalVehicles[index]);
             if (frm.ShowDialog() == DialogResult.OK)
             {
-                vehicles[index].Brand = frm.vehicle.Brand;
-                vehicles[index].MaxSpeed = frm.vehicle.MaxSpeed;
-                vehicles[index].ProductionDate = frm.vehicle.ProductionDate;
-                vehicles[index].Type = frm.vehicle.Type;
+                globalVehicles[index] = frm.vehicle;
                 (MdiParent as MainForm).OnVehicleModified(index);
             }
+        }
+
+        private void filterMaxSpeedFilterToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            activeFilterToolStripMenuItem.CheckState = CheckState.Unchecked;
+            activeFilterToolStripMenuItem = (ToolStripMenuItem)sender;
+            activeFilterToolStripMenuItem.CheckState = CheckState.Checked;
+            refreshView();
+        }
+
+        private void refreshView()
+        {
+            clearView();
+            foreach (var vehicle in filteredVehicles)
+            {
+                addVehicleToView(vehicle);
+            }
+            Text = "VehiclesList " + getFilterModeString(activeFilterMode);
+        }
+
+        private void clearView()
+        {
+            vehiclesListView.Items.Clear();
         }
 
         private void addVehicleToView(Vehicle vehicle)
@@ -116,6 +197,14 @@ namespace Vehicles.Views
             vehiclesListView.Items.Add(item);
         }
 
+        private void insertVehicleToView(Vehicle vehicle, int index)
+        {
+            var item = new ListViewItem();
+            item.Tag = vehicle;
+            updateItemInView(item);
+            vehiclesListView.Items.Insert(index, item);
+        }
+
         private void removeVehicleFromView(int index)
         {
             vehiclesListView.Items.RemoveAt(index);
@@ -124,7 +213,7 @@ namespace Vehicles.Views
         private void modifyVehicleInView(int index)
         {
             var item = vehiclesListView.Items[index];
-            var vehicle = vehicles[index];
+            var vehicle = filteredVehicles[index];
             item.Tag = vehicle;
             updateItemInView(item);
         }
@@ -140,7 +229,20 @@ namespace Vehicles.Views
             item.SubItems[3].Text = vehicle.Type.ToString();
         }
 
-        private void removeEventHandlers()
+        private string getFilterModeString(FilterMode filter)
+        {
+            if (filter == FilterMode.None)
+                return "";
+
+            var result = "Filter: Max Speed ";
+            if (filter == FilterMode.MaxSpeedBelow)
+                return result + "< 100km/h";
+            else if (filter == FilterMode.MaxSpeedAbove)
+                return result + ">= 100km/h";
+            return "";
+        }
+
+        private void unregisterEventHandlers()
         {
             var parent = MdiParent as MainForm;
             parent.VehicleAdded -= vehicles_Add;

@@ -30,5 +30,13 @@ namespace Vehicles.Classes
             MaxSpeed = max_speed;
             Type = type;
         }
+
+        public Vehicle(Vehicle vehicle)
+        {
+            Brand = vehicle.Brand;
+            ProductionDate = vehicle.ProductionDate;
+            MaxSpeed = vehicle.MaxSpeed;
+            Type = vehicle.Type;
+        }
     }
 }

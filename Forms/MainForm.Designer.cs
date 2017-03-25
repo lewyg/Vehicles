@@ -34,15 +34,18 @@
             this.viewCloseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpAboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.mdiToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainMenuStrip
             // 
             this.mainMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.mdiToolStripMenuItem,
             this.viewToolStripMenuItem,
             this.helpToolStripMenuItem});
             this.mainMenuStrip.Location = new System.Drawing.Point(0, 0);
+            this.mainMenuStrip.MdiWindowListItem = this.mdiToolStripMenuItem;
             this.mainMenuStrip.Name = "mainMenuStrip";
             this.mainMenuStrip.Size = new System.Drawing.Size(946, 24);
             this.mainMenuStrip.TabIndex = 8;
@@ -83,9 +86,15 @@
             // helpAboutToolStripMenuItem
             // 
             this.helpAboutToolStripMenuItem.Name = "helpAboutToolStripMenuItem";
-            this.helpAboutToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.helpAboutToolStripMenuItem.Size = new System.Drawing.Size(116, 22);
             this.helpAboutToolStripMenuItem.Text = "About...";
             this.helpAboutToolStripMenuItem.Click += new System.EventHandler(this.helpAboutToolStripMenuItem_Click);
+            // 
+            // mdiToolStripMenuItem
+            // 
+            this.mdiToolStripMenuItem.Name = "mdiToolStripMenuItem";
+            this.mdiToolStripMenuItem.Size = new System.Drawing.Size(40, 20);
+            this.mdiToolStripMenuItem.Text = "Mdi";
             // 
             // MainForm
             // 
@@ -113,6 +122,7 @@
         private System.Windows.Forms.ToolStripMenuItem viewCloseToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpAboutToolStripMenuItem;
+        private System.Windows.Forms.ToolStripMenuItem mdiToolStripMenuItem;
 
 
 
