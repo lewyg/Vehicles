@@ -33,7 +33,6 @@
             this.maxSpeedColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.productionDateColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.typeColumnHeader = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.vehiclesMenuStrip = new System.Windows.Forms.MenuStrip();
             this.vehicleToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vehicleAddToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.vehicleRemoveToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
@@ -43,6 +42,7 @@
             this.filterMaxSpeedLessToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.filterMaxSpeedOverToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.filterMaxSpeedNoneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.vehiclesMenuStrip = new System.Windows.Forms.MenuStrip();
             this.vehiclesMenuStrip.SuspendLayout();
             this.SuspendLayout();
             // 
@@ -83,23 +83,13 @@
             this.typeColumnHeader.Text = "Type";
             this.typeColumnHeader.Width = 131;
             // 
-            // vehiclesMenuStrip
-            // 
-            this.vehiclesMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.vehicleToolStripMenuItem,
-            this.filterToolStripMenuItem});
-            this.vehiclesMenuStrip.Location = new System.Drawing.Point(0, 0);
-            this.vehiclesMenuStrip.Name = "vehiclesMenuStrip";
-            this.vehiclesMenuStrip.Size = new System.Drawing.Size(426, 24);
-            this.vehiclesMenuStrip.TabIndex = 1;
-            this.vehiclesMenuStrip.Text = "Vehicles";
-            // 
             // vehicleToolStripMenuItem
             // 
             this.vehicleToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.vehicleAddToolStripMenuItem,
             this.vehicleRemoveToolStripMenuItem,
             this.vehicleModifyToolStripMenuItem});
+            this.vehicleToolStripMenuItem.MergeAction = System.Windows.Forms.MergeAction.Insert;
             this.vehicleToolStripMenuItem.MergeIndex = 1;
             this.vehicleToolStripMenuItem.Name = "vehicleToolStripMenuItem";
             this.vehicleToolStripMenuItem.Size = new System.Drawing.Size(57, 20);
@@ -108,21 +98,21 @@
             // vehicleAddToolStripMenuItem
             // 
             this.vehicleAddToolStripMenuItem.Name = "vehicleAddToolStripMenuItem";
-            this.vehicleAddToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.vehicleAddToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.vehicleAddToolStripMenuItem.Text = "Add";
             this.vehicleAddToolStripMenuItem.Click += new System.EventHandler(this.vehicleAddToolStripMenuItem_Click);
             // 
             // vehicleRemoveToolStripMenuItem
             // 
             this.vehicleRemoveToolStripMenuItem.Name = "vehicleRemoveToolStripMenuItem";
-            this.vehicleRemoveToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.vehicleRemoveToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.vehicleRemoveToolStripMenuItem.Text = "Remove";
             this.vehicleRemoveToolStripMenuItem.Click += new System.EventHandler(this.vehicleRemoveToolStripMenuItem_Click);
             // 
             // vehicleModifyToolStripMenuItem
             // 
             this.vehicleModifyToolStripMenuItem.Name = "vehicleModifyToolStripMenuItem";
-            this.vehicleModifyToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.vehicleModifyToolStripMenuItem.Size = new System.Drawing.Size(117, 22);
             this.vehicleModifyToolStripMenuItem.Text = "Modify";
             this.vehicleModifyToolStripMenuItem.Click += new System.EventHandler(this.vehicleModifyToolStripMenuItem_Click);
             // 
@@ -130,6 +120,7 @@
             // 
             this.filterToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.maxSpeedToolStripMenuItem});
+            this.filterToolStripMenuItem.MergeAction = System.Windows.Forms.MergeAction.Insert;
             this.filterToolStripMenuItem.MergeIndex = 2;
             this.filterToolStripMenuItem.Name = "filterToolStripMenuItem";
             this.filterToolStripMenuItem.Size = new System.Drawing.Size(45, 20);
@@ -142,7 +133,7 @@
             this.filterMaxSpeedOverToolStripMenuItem,
             this.filterMaxSpeedNoneToolStripMenuItem});
             this.maxSpeedToolStripMenuItem.Name = "maxSpeedToolStripMenuItem";
-            this.maxSpeedToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
+            this.maxSpeedToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.maxSpeedToolStripMenuItem.Text = "MaxSpeed";
             // 
             // filterMaxSpeedLessToolStripMenuItem
@@ -167,6 +158,17 @@
             this.filterMaxSpeedNoneToolStripMenuItem.Name = "filterMaxSpeedNoneToolStripMenuItem";
             this.filterMaxSpeedNoneToolStripMenuItem.Size = new System.Drawing.Size(143, 22);
             this.filterMaxSpeedNoneToolStripMenuItem.Text = "None";
+            // 
+            // vehiclesMenuStrip
+            // 
+            this.vehiclesMenuStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.vehicleToolStripMenuItem,
+            this.filterToolStripMenuItem});
+            this.vehiclesMenuStrip.Location = new System.Drawing.Point(0, 0);
+            this.vehiclesMenuStrip.Name = "vehiclesMenuStrip";
+            this.vehiclesMenuStrip.Size = new System.Drawing.Size(426, 24);
+            this.vehiclesMenuStrip.TabIndex = 1;
+            this.vehiclesMenuStrip.Text = "Vehicles";
             // 
             // VehiclesViewForm
             // 
@@ -194,7 +196,6 @@
         private System.Windows.Forms.ColumnHeader maxSpeedColumnHeader;
         private System.Windows.Forms.ColumnHeader productionDateColumnHeader;
         private System.Windows.Forms.ColumnHeader typeColumnHeader;
-        private System.Windows.Forms.MenuStrip vehiclesMenuStrip;
         private System.Windows.Forms.ToolStripMenuItem vehicleToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem vehicleAddToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem vehicleRemoveToolStripMenuItem;
@@ -204,5 +205,6 @@
         private System.Windows.Forms.ToolStripMenuItem filterMaxSpeedLessToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem filterMaxSpeedOverToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem filterMaxSpeedNoneToolStripMenuItem;
+        private System.Windows.Forms.MenuStrip vehiclesMenuStrip;
     }
 }
