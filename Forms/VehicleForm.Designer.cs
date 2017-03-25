@@ -38,9 +38,9 @@
             this.saveButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
             this.vehicleTypeGroupBox = new System.Windows.Forms.GroupBox();
+            this.vehicleTypeTextBox = new System.Windows.Forms.TextBox();
             this.speedUnitLabel = new System.Windows.Forms.Label();
             this.vehicleErrorProvider = new System.Windows.Forms.ErrorProvider(this.components);
-            this.vehicleTypeTextBox = new System.Windows.Forms.TextBox();
             this.vehicleTypeControl = new Vehicles.Controls.VehicleTypeControl();
             this.vehicleTypeGroupBox.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.vehicleErrorProvider)).BeginInit();
@@ -132,6 +132,16 @@
             this.vehicleTypeGroupBox.TabStop = false;
             this.vehicleTypeGroupBox.Text = "Vehicle type";
             // 
+            // vehicleTypeTextBox
+            // 
+            this.vehicleTypeTextBox.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.vehicleTypeTextBox.Location = new System.Drawing.Point(3, 77);
+            this.vehicleTypeTextBox.Name = "vehicleTypeTextBox";
+            this.vehicleTypeTextBox.ReadOnly = true;
+            this.vehicleTypeTextBox.Size = new System.Drawing.Size(74, 20);
+            this.vehicleTypeTextBox.TabIndex = 0;
+            this.vehicleTypeTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
+            // 
             // speedUnitLabel
             // 
             this.speedUnitLabel.AutoSize = true;
@@ -146,16 +156,6 @@
             this.vehicleErrorProvider.ContainerControl = this;
             this.vehicleErrorProvider.RightToLeft = true;
             // 
-            // vehicleTypeTextBox
-            // 
-            this.vehicleTypeTextBox.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.vehicleTypeTextBox.Location = new System.Drawing.Point(3, 77);
-            this.vehicleTypeTextBox.Name = "vehicleTypeTextBox";
-            this.vehicleTypeTextBox.ReadOnly = true;
-            this.vehicleTypeTextBox.Size = new System.Drawing.Size(74, 20);
-            this.vehicleTypeTextBox.TabIndex = 0;
-            this.vehicleTypeTextBox.TextAlign = System.Windows.Forms.HorizontalAlignment.Center;
-            // 
             // vehicleTypeControl
             // 
             this.vehicleTypeControl.Dock = System.Windows.Forms.DockStyle.Fill;
@@ -163,7 +163,7 @@
             this.vehicleTypeControl.Name = "vehicleTypeControl";
             this.vehicleTypeControl.Size = new System.Drawing.Size(74, 61);
             this.vehicleTypeControl.TabIndex = 1;
-            this.vehicleTypeControl.VehicleType = 0;
+            this.vehicleTypeControl.VehicleType = 1;
             this.vehicleTypeControl.VehicleTypeChanged += new System.EventHandler(this.vehicleTypeControl_VehicleTypeChanged);
             // 
             // VehicleForm

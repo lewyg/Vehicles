@@ -28,20 +28,9 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.components = new System.ComponentModel.Container();
-            System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(VehicleTypeControl));
-            this.vehicleTypeImageList = new System.Windows.Forms.ImageList(this.components);
             this.vehicleTypePictureBox = new System.Windows.Forms.PictureBox();
             ((System.ComponentModel.ISupportInitialize)(this.vehicleTypePictureBox)).BeginInit();
             this.SuspendLayout();
-            // 
-            // vehicleTypeImageList
-            // 
-            this.vehicleTypeImageList.ImageStream = ((System.Windows.Forms.ImageListStreamer)(resources.GetObject("vehicleTypeImageList.ImageStream")));
-            this.vehicleTypeImageList.TransparentColor = System.Drawing.Color.Transparent;
-            this.vehicleTypeImageList.Images.SetKeyName(0, "car.png");
-            this.vehicleTypeImageList.Images.SetKeyName(1, "truck.png");
-            this.vehicleTypeImageList.Images.SetKeyName(2, "motorbike.png");
             // 
             // vehicleTypePictureBox
             // 
@@ -70,7 +59,6 @@
 
         #endregion
 
-        private System.Windows.Forms.ImageList vehicleTypeImageList;
         private System.Windows.Forms.PictureBox vehicleTypePictureBox;
     }
 }
