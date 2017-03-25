@@ -62,6 +62,7 @@
             this.vehiclesListView.TabIndex = 0;
             this.vehiclesListView.UseCompatibleStateImageBehavior = false;
             this.vehiclesListView.View = System.Windows.Forms.View.Details;
+            this.vehiclesListView.DoubleClick += new System.EventHandler(this.vehiclesListView_DoubleClick);
             // 
             // brandColumnHeader
             // 

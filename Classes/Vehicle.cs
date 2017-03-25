@@ -8,22 +8,21 @@ namespace Vehicles.Classes
 {
     public enum VehicleType
     {
-        None = 0,
-        Car = 1,
-        Truck = 2,
-        Motorbike = 3
+        Car = 0,
+        Truck = 1,
+        Motorbike = 2
     }
     public class Vehicle
     {
-        public string Brand { get; set; }
+        public String Brand { get; set; }
 
         public DateTime ProductionDate { get; set; }
 
-        public double MaxSpeed { get; set; }
+        public Int32 MaxSpeed { get; set; }
 
-        public int Type { get; set; }
+        public Int32 Type { get; set; }
 
-        public Vehicle(string brand = "None", DateTime production_date = new DateTime(), double max_speed = 0, int type = (int)VehicleType.None)
+        public Vehicle(String brand = "None", DateTime production_date = new DateTime(), Int32 max_speed = 0, Int32 type = (int)VehicleType.Car)
         {
             Brand = brand;
             ProductionDate = production_date;

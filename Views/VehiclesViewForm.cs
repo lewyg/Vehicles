@@ -46,9 +46,9 @@ namespace Vehicles.Views
                 var tempVehicles = localVehicles;
 
                 if (activeFilterMode == FilterMode.MaxSpeedAbove)
-                    tempVehicles = tempVehicles.Where(v => v.MaxSpeed < 100).ToList();
-                else if (activeFilterMode == FilterMode.MaxSpeedBelow)
                     tempVehicles = tempVehicles.Where(v => v.MaxSpeed >= 100).ToList();
+                else if (activeFilterMode == FilterMode.MaxSpeedBelow)
+                    tempVehicles = tempVehicles.Where(v => v.MaxSpeed < 100).ToList();
                 return tempVehicles;
             }
         }
@@ -63,7 +63,7 @@ namespace Vehicles.Views
 
         public void vehicles_Remove(object sender, EventArgs e)
         {
-            var index = (int)sender;
+            var index = (Int32)sender;
             var vehicle = localVehicles[index];
             var indexInFilteredVehicles = filteredVehicles.IndexOf(vehicle);
             if (indexInFilteredVehicles != -1)
@@ -73,7 +73,7 @@ namespace Vehicles.Views
 
         public void vehicles_Modify(object sender, EventArgs e)
         {
-            var index = (int)sender;
+            var index = (Int32)sender;
             var vehicleLocal = localVehicles[index];
             var vehicleGlobal = globalVehicles[index];
             var indexInLocalFilteredVehicles = filteredVehicles.IndexOf(vehicleLocal);
@@ -126,44 +126,17 @@ namespace Vehicles.Views
 
         private void vehicleAddToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            var frm = new VehicleForm();
-            if (frm.ShowDialog() == DialogResult.OK)
-            {
-                globalVehicles.Add(frm.vehicle);
-                (MdiParent as MainForm).OnVehicleAdded(frm.vehicle);
-            }
+            addVehicle();
         }
 
         private void vehicleRemoveToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (vehiclesListView.SelectedItems.Count == 0)
-                return;
-
-            var item = vehiclesListView.SelectedItems[0];
-            var indexInFilteredVehicles = vehiclesListView.Items.IndexOf(item);
-            var vehicle = filteredVehicles[indexInFilteredVehicles];
-            var index = localVehicles.IndexOf(vehicle);
-
-            globalVehicles.RemoveAt(index);
-            (MdiParent as MainForm).OnVehicleRemoved(index);
+            removeVehicle();
         }
 
         private void vehicleModifyToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            if (vehiclesListView.SelectedItems.Count == 0)
-                return;
-
-            var item = vehiclesListView.SelectedItems[0];
-            var indexInFilteredVehicles = vehiclesListView.Items.IndexOf(item);
-            var vehicle = filteredVehicles[indexInFilteredVehicles];
-            var index = localVehicles.IndexOf(vehicle);
-
-            var frm = new VehicleForm(globalVehicles[index]);
-            if (frm.ShowDialog() == DialogResult.OK)
-            {
-                globalVehicles[index] = frm.vehicle;
-                (MdiParent as MainForm).OnVehicleModified(index);
-            }
+            modifyVehicle();
         }
 
         private void filterMaxSpeedFilterToolStripMenuItem_Click(object sender, EventArgs e)
@@ -190,15 +163,22 @@ namespace Vehicles.Views
             vehiclesListView.Items.Clear();
         }
 
-        private void addVehicleToView(Vehicle vehicle)
+        private void addVehicle()
         {
-            var item = new ListViewItem();
-            item.Tag = vehicle;
-            updateItemInView(item);
-            vehiclesListView.Items.Add(item);
+            var frm = new VehicleForm();
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                globalVehicles.Add(frm.vehicle);
+                (MdiParent as MainForm).OnVehicleAdded(frm.vehicle);
+            }
         }
 
-        private void insertVehicleToView(Vehicle vehicle, int index)
+        private void addVehicleToView(Vehicle vehicle)
+        {
+            insertVehicleToView(vehicle, vehiclesListView.Items.Count);
+        }
+
+        private void insertVehicleToView(Vehicle vehicle, Int32 index)
         {
             var item = new ListViewItem();
             item.Tag = vehicle;
@@ -206,12 +186,45 @@ namespace Vehicles.Views
             vehiclesListView.Items.Insert(index, item);
         }
 
-        private void removeVehicleFromView(int index)
+
+        private void removeVehicle()
+        {
+            if (vehiclesListView.SelectedItems.Count == 0)
+                return;
+
+            var item = vehiclesListView.SelectedItems[0];
+            var indexInFilteredVehicles = vehiclesListView.Items.IndexOf(item);
+            var vehicle = filteredVehicles[indexInFilteredVehicles];
+            var index = localVehicles.IndexOf(vehicle);
+
+            globalVehicles.RemoveAt(index);
+            (MdiParent as MainForm).OnVehicleRemoved(index);
+        }
+
+        private void removeVehicleFromView(Int32 index)
         {
             vehiclesListView.Items.RemoveAt(index);
         }
 
-        private void modifyVehicleInView(int index)
+        private void modifyVehicle()
+        {
+            if (vehiclesListView.SelectedItems.Count == 0)
+                return;
+
+            var item = vehiclesListView.SelectedItems[0];
+            var indexInFilteredVehicles = vehiclesListView.Items.IndexOf(item);
+            var vehicle = filteredVehicles[indexInFilteredVehicles];
+            var index = localVehicles.IndexOf(vehicle);
+
+            var frm = new VehicleForm(globalVehicles[index]);
+            if (frm.ShowDialog() == DialogResult.OK)
+            {
+                globalVehicles[index] = frm.vehicle;
+                (MdiParent as MainForm).OnVehicleModified(index);
+            }
+        }
+
+        private void modifyVehicleInView(Int32 index)
         {
             var item = vehiclesListView.Items[index];
             var vehicle = filteredVehicles[index];
@@ -225,9 +238,9 @@ namespace Vehicles.Views
             while (item.SubItems.Count < 4)
                 item.SubItems.Add(new ListViewItem.ListViewSubItem());
             item.SubItems[0].Text = vehicle.Brand;
-            item.SubItems[1].Text = vehicle.MaxSpeed.ToString();
+            item.SubItems[1].Text = vehicle.MaxSpeed.ToString() + " km/h";
             item.SubItems[2].Text = vehicle.ProductionDate.ToShortDateString();
-            item.SubItems[3].Text = vehicle.Type.ToString();
+            item.SubItems[3].Text = ((VehicleType)vehicle.Type).ToString();
         }
 
         private string getFilterModeString(FilterMode filter)
@@ -249,6 +262,11 @@ namespace Vehicles.Views
             parent.VehicleAdded -= vehicles_Add;
             parent.VehicleRemoved -= vehicles_Remove;
             parent.VehicleModified -= vehicles_Modify;
+        }
+
+        private void vehiclesListView_DoubleClick(object sender, EventArgs e)
+        {
+            modifyVehicle();
         }
     }
 }

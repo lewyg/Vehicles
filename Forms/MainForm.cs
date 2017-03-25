@@ -42,12 +42,12 @@ namespace Vehicles.Forms
 
         private void loadVehicles()
         {
-            vehicles.Add(new Vehicle("Opel Astra", DateTime.Now.AddYears(-10), 190, (int)VehicleType.Car));
-            vehicles.Add(new Vehicle("Audi A4", DateTime.Now.AddYears(-7), 200, (int)VehicleType.Car));
-            vehicles.Add(new Vehicle("Yamaha Neos", DateTime.Now.AddYears(-2), 90, (int)VehicleType.Motorbike));
-            vehicles.Add(new Vehicle("Skoda Fabia", DateTime.Now.AddYears(-14), 150, (int)VehicleType.Car));
-            vehicles.Add(new Vehicle("Volvo", DateTime.Now.AddYears(-9), 80, (int)VehicleType.Truck));
-            vehicles.Add(new Vehicle("Fiat 125p", DateTime.Now.AddYears(-30), 90, (int)VehicleType.Car));
+            vehicles.Add(new Vehicle("Opel Astra", DateTime.Now.AddYears(-10), 190, (Int32)VehicleType.Car));
+            vehicles.Add(new Vehicle("Audi A4", DateTime.Now.AddYears(-7), 200, (Int32)VehicleType.Car));
+            vehicles.Add(new Vehicle("Yamaha Neos", DateTime.Now.AddYears(-2), 90, (Int32)VehicleType.Motorbike));
+            vehicles.Add(new Vehicle("Skoda Fabia", DateTime.Now.AddYears(-14), 150, (Int32)VehicleType.Car));
+            vehicles.Add(new Vehicle("Volvo", DateTime.Now.AddYears(-9), 80, (Int32)VehicleType.Truck));
+            vehicles.Add(new Vehicle("Fiat 125p", DateTime.Now.AddYears(-30), 90, (Int32)VehicleType.Car));
         }
 
         public MainForm()
@@ -74,7 +74,7 @@ namespace Vehicles.Forms
 
         private void helpAboutToolStripMenuItem_Click(object sender, EventArgs e)
         {
-            MessageBox.Show("Application Vehicles List created as project for subjectPAIN\nAuthor Grzegorz Lewczuk",
+            MessageBox.Show("Application Vehicles List\nAuthor Grzegorz Lewczuk",
                 "Vehicles info",
                 MessageBoxButtons.OK,
                 MessageBoxIcon.Information);
@@ -127,6 +127,11 @@ namespace Vehicles.Forms
         private void MainForm_MdiChildActivate(object sender, EventArgs e)
         {
             updateStatusBar();
+        }
+
+        private void viewCascadeToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LayoutMdi(MdiLayout.Cascade);
         }
     }
 }

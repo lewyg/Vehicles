@@ -24,6 +24,7 @@ namespace Vehicles.Forms
         private void VehicleForm_Load(object sender, EventArgs e)
         {
             loadControlsDataFromVehicle();
+            productionDateDateTimePicker.MaxDate = DateTime.Now.Date;
         }
 
         private void cancelButton_Click(object sender, EventArgs e)
@@ -33,8 +34,7 @@ namespace Vehicles.Forms
 
         private void saveButton_Click(object sender, EventArgs e)
         {
-            if (ValidateChildren()
-                && validateEnteredData())
+            if (ValidateChildren())
             {
                 updateVehicleFromControlsData();
                 DialogResult = DialogResult.OK;
@@ -48,20 +48,53 @@ namespace Vehicles.Forms
                 vehicle.ProductionDate.Date < productionDateDateTimePicker.MinDate ?
                 productionDateDateTimePicker.MinDate : vehicle.ProductionDate.Date;
             maxSpeedTextBox.Text = vehicle.MaxSpeed.ToString();
-            vehicleTypeTextBox.Text = vehicle.Type.ToString();
+            vehicleTypeControl.VehicleType = vehicle.Type;
         }
 
         private void updateVehicleFromControlsData()
         {
             vehicle.Brand = brandTextBox.Text;
             vehicle.ProductionDate = productionDateDateTimePicker.Value;
-            vehicle.MaxSpeed = int.Parse(maxSpeedTextBox.Text);
-            vehicle.Type = int.Parse(vehicleTypeTextBox.Text);
+            vehicle.MaxSpeed = Int32.Parse(maxSpeedTextBox.Text);
+            vehicle.Type = vehicleTypeControl.VehicleType;
         }
 
-        private bool validateEnteredData()
+        private void brandTextBox_Validating(object sender, CancelEventArgs e)
         {
-            return true;
+            if (String.IsNullOrEmpty((sender as TextBox).Text))
+            {
+                e.Cancel = true;
+                vehicleErrorProvider.SetError((sender as TextBox), "Brand name cannot be empty");
+            }
+            if (!Char.IsUpper((sender as TextBox).Text.FirstOrDefault()))
+            {
+                e.Cancel = true;
+                vehicleErrorProvider.SetError((sender as TextBox), "Brand name has to start with an uppercase letter");
+            }
+            if ((sender as TextBox).Text.Any(c => !Char.IsLetterOrDigit(c) && !Char.IsSeparator(c)))
+            {
+                e.Cancel = true;
+                vehicleErrorProvider.SetError((sender as TextBox), "Brand name may contain only letters and digits");
+            }
+        }
+
+        private void maxSpeedTextBox_Validating(object sender, CancelEventArgs e)
+        {
+            if (String.IsNullOrEmpty((sender as TextBox).Text))
+            {
+                e.Cancel = true;
+                vehicleErrorProvider.SetError((sender as TextBox), "Max speed cannot be empty");
+            }
+            if ((sender as TextBox).Text.Any(c => !Char.IsDigit(c)))
+            {
+                e.Cancel = true;
+                vehicleErrorProvider.SetError((sender as TextBox), "Max speed has to be a number");
+            }
+        }
+
+        private void control_Validated(object sender, EventArgs e)
+        {
+            vehicleErrorProvider.SetError((sender as Control), "");
         }
     }
 }
