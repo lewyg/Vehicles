@@ -36,13 +36,12 @@ namespace Vehicles.Views
             }
         }
 
-        public List<Vehicle> globalVehicles;
-        private List<Vehicle> localVehicles;
+        public List<Vehicle> vehicles;
         public List<Vehicle> filteredVehicles
         {
             get
             {
-                var tempVehicles = localVehicles;
+                var tempVehicles = vehicles;
 
                 if (activeFilterMode == FilterMode.MaxSpeedAbove)
                     tempVehicles = tempVehicles.Where(v => v.MaxSpeed >= filterMaxSpeed).ToList();
@@ -55,51 +54,41 @@ namespace Vehicles.Views
         public void vehicles_Add(object sender, EventArgs e)
         {
             var vehicle = (Vehicle)sender;
-            localVehicles.Add(vehicle);
+            vehicles.Add(vehicle);
             if (filteredVehicles.Contains(vehicle))
                 addVehicleToView(vehicle);
         }
 
         public void vehicles_Remove(object sender, EventArgs e)
         {
-            var index = (Int32)sender;
-            var vehicle = localVehicles[index];
-            var indexInFilteredVehicles = filteredVehicles.IndexOf(vehicle);
-            if (indexInFilteredVehicles != -1)
-                removeVehicleFromView(indexInFilteredVehicles);
-            localVehicles.RemoveAt(index);
+            var vehicle = (Vehicle)sender;
+            var index = getIndexInView(vehicle);
+            if (getIndexInView(vehicle) != -1)
+                removeVehicleFromView(index);
         }
 
         public void vehicles_Modify(object sender, EventArgs e)
         {
-            var index = (Int32)sender;
-            var vehicleLocal = localVehicles[index];
-            var vehicleGlobal = globalVehicles[index];
-            var indexInLocalFilteredVehicles = filteredVehicles.IndexOf(vehicleLocal);
-
-            localVehicles[index] = vehicleGlobal;
-
-            var indexInGlobalFilteredVehicles = filteredVehicles.IndexOf(vehicleGlobal);
-
-            if (indexInLocalFilteredVehicles != -1)
+            var vehicle = (Vehicle)sender;
+            var index = getIndexInView(vehicle);
+            if (getIndexInView(vehicle) != -1)
             {
                 if (filteredVehicles.Count < vehiclesListView.Items.Count)
-                    removeVehicleFromView(indexInLocalFilteredVehicles);
+                    removeVehicleFromView(index);
                 else
-                    modifyVehicleInView(indexInLocalFilteredVehicles);
+                    modifyVehicleInView(index);
             }
-
-            if (indexInGlobalFilteredVehicles != -1)
+            else if (filteredVehicles.Count > vehiclesListView.Items.Count)
             {
-                if (filteredVehicles.Count > vehiclesListView.Items.Count)
-                    insertVehicleToView(vehicleGlobal, indexInGlobalFilteredVehicles);
+                index = getIndexOfMissingVehicleInView();
+                if (index != -1)
+                    insertVehicleToView(filteredVehicles[index], index);
             }
         }
 
         public VehiclesViewForm(List<Vehicle> _vehicles)
         {
-            globalVehicles = _vehicles;
-            localVehicles = _vehicles.Select(v => new Vehicle(v)).ToList();
+            vehicles = _vehicles;
             InitializeComponent();
         }
 
@@ -196,7 +185,7 @@ namespace Vehicles.Views
             var frm = new VehicleForm();
             if (frm.ShowDialog() == DialogResult.OK)
             {
-                globalVehicles.Add(frm.vehicle);
+                vehicles.Add(frm.vehicle);
                 (MdiParent as MainForm).OnVehicleAdded(frm.vehicle);
             }
         }
@@ -214,17 +203,16 @@ namespace Vehicles.Views
             vehiclesListView.Items.Insert(index, item);
         }
 
-
         private void removeVehicle()
         {
             if (vehiclesListView.SelectedItems.Count == 0)
                 return;
 
             var item = vehiclesListView.SelectedItems[0];
-            var index = localVehicles.IndexOf((Vehicle)item.Tag);
+            var index = vehicles.IndexOf((Vehicle)item.Tag);
 
-            globalVehicles.RemoveAt(index);
-            (MdiParent as MainForm).OnVehicleRemoved(index);
+            vehicles.RemoveAt(index);
+            (MdiParent as MainForm).OnVehicleRemoved((Vehicle)item.Tag);
         }
 
         private void removeVehicleFromView(Int32 index)
@@ -238,13 +226,13 @@ namespace Vehicles.Views
                 return;
 
             var item = vehiclesListView.SelectedItems[0];
-            var index = localVehicles.IndexOf((Vehicle)item.Tag);
+            var index = vehicles.IndexOf((Vehicle)item.Tag);
 
-            var frm = new VehicleForm(globalVehicles[index]);
+            var frm = new VehicleForm(vehicles[index]);
             if (frm.ShowDialog() == DialogResult.OK)
             {
-                globalVehicles[index] = frm.vehicle;
-                (MdiParent as MainForm).OnVehicleModified(index);
+                vehicles[index] = frm.vehicle;
+                (MdiParent as MainForm).OnVehicleModified((Vehicle)item.Tag);
             }
         }
 
@@ -265,6 +253,22 @@ namespace Vehicles.Views
             item.SubItems[1].Text = vehicle.MaxSpeed.ToString() + " km/h";
             item.SubItems[2].Text = vehicle.ProductionDate.ToShortDateString();
             item.SubItems[3].Text = ((VehicleType)vehicle.Type).ToString();
+        }
+
+        private Int32 getIndexInView(Vehicle vehicle)
+        {
+            foreach (ListViewItem item in vehiclesListView.Items)
+                if (item.Tag == vehicle)
+                    return vehiclesListView.Items.IndexOf(item);
+            return -1;
+        }
+
+        private Int32 getIndexOfMissingVehicleInView()
+        {
+            foreach (ListViewItem item in vehiclesListView.Items)
+                if (item.Tag != filteredVehicles[item.Index])
+                    return item.Index;
+            return -1;
         }
 
         private string getFilterModeString(FilterMode filter)

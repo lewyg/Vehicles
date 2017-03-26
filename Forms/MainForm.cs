@@ -25,18 +25,18 @@ namespace Vehicles.Forms
         }
 
         public EventHandler VehicleRemoved;
-        public void OnVehicleRemoved(int index)
+        public void OnVehicleRemoved(Vehicle vehicle)
         {
             if (VehicleRemoved != null)
-                VehicleRemoved(index, EventArgs.Empty);
+                VehicleRemoved(vehicle, EventArgs.Empty);
             updateStatusBar();
         }
 
         public EventHandler VehicleModified;
-        public void OnVehicleModified(int index)
+        public void OnVehicleModified(Vehicle vehicle)
         {
             if (VehicleModified != null)
-                VehicleModified(index, EventArgs.Empty);
+                VehicleModified(vehicle, EventArgs.Empty);
             updateStatusBar();
         }
 
