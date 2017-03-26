@@ -136,7 +136,7 @@
             this.filterMaxSpeedNoneToolStripMenuItem,
             this.filterMaxSpeedToolStripTextBox});
             this.maxSpeedToolStripMenuItem.Name = "maxSpeedToolStripMenuItem";
-            this.maxSpeedToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.maxSpeedToolStripMenuItem.Size = new System.Drawing.Size(128, 22);
             this.maxSpeedToolStripMenuItem.Text = "MaxSpeed";
             // 
             // filterMaxSpeedBelowToolStripMenuItem

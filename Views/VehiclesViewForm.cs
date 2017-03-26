@@ -221,9 +221,7 @@ namespace Vehicles.Views
                 return;
 
             var item = vehiclesListView.SelectedItems[0];
-            var indexInFilteredVehicles = vehiclesListView.Items.IndexOf(item);
-            var vehicle = filteredVehicles[indexInFilteredVehicles];
-            var index = localVehicles.IndexOf(vehicle);
+            var index = localVehicles.IndexOf((Vehicle)item.Tag);
 
             globalVehicles.RemoveAt(index);
             (MdiParent as MainForm).OnVehicleRemoved(index);
@@ -240,9 +238,7 @@ namespace Vehicles.Views
                 return;
 
             var item = vehiclesListView.SelectedItems[0];
-            var indexInFilteredVehicles = vehiclesListView.Items.IndexOf(item);
-            var vehicle = filteredVehicles[indexInFilteredVehicles];
-            var index = localVehicles.IndexOf(vehicle);
+            var index = localVehicles.IndexOf((Vehicle)item.Tag);
 
             var frm = new VehicleForm(globalVehicles[index]);
             if (frm.ShowDialog() == DialogResult.OK)
@@ -292,11 +288,6 @@ namespace Vehicles.Views
             filterMaxSpeedAboveToolStripMenuItem.Text = ">= " + filterMaxSpeed + " km/h";
             filterMaxSpeedBelowToolStripMenuItem.Text = "< " + filterMaxSpeed + " km/h";
             refreshView();
-        }
-
-        private void filterMaxSpeedToolStripTextBox_Validating(object sender, CancelEventArgs e)
-        {
-
         }
     }
 }

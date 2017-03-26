@@ -133,5 +133,10 @@ namespace Vehicles.Forms
         {
             LayoutMdi(MdiLayout.Cascade);
         }
+
+        private void viewTabularToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LayoutMdi(MdiLayout.TileHorizontal);
+        }
     }
 }

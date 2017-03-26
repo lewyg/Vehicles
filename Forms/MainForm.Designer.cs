@@ -38,6 +38,7 @@
             this.helpAboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainStatusStrip = new System.Windows.Forms.StatusStrip();
             this.numberOfVehiclesStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
+            this.viewTabularToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainMenuStrip.SuspendLayout();
             this.mainStatusStrip.SuspendLayout();
             this.SuspendLayout();
@@ -66,7 +67,8 @@
             this.viewsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.viewNewToolStripMenuItem,
             this.viewCloseToolStripMenuItem,
-            this.viewCascadeViewsToolStripMenuItem});
+            this.viewCascadeViewsToolStripMenuItem,
+            this.viewTabularToolStripMenuItem});
             this.viewsToolStripMenuItem.Name = "viewsToolStripMenuItem";
             this.viewsToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
             this.viewsToolStripMenuItem.Text = "Views";
@@ -74,21 +76,21 @@
             // viewNewToolStripMenuItem
             // 
             this.viewNewToolStripMenuItem.Name = "viewNewToolStripMenuItem";
-            this.viewNewToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.viewNewToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.viewNewToolStripMenuItem.Text = "New";
             this.viewNewToolStripMenuItem.Click += new System.EventHandler(this.viewNewToolStripMenuItem_Click);
             // 
             // viewCloseToolStripMenuItem
             // 
             this.viewCloseToolStripMenuItem.Name = "viewCloseToolStripMenuItem";
-            this.viewCloseToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.viewCloseToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.viewCloseToolStripMenuItem.Text = "Close";
             this.viewCloseToolStripMenuItem.Click += new System.EventHandler(this.viewCloseToolStripMenuItem_Click);
             // 
             // viewCascadeViewsToolStripMenuItem
             // 
             this.viewCascadeViewsToolStripMenuItem.Name = "viewCascadeViewsToolStripMenuItem";
-            this.viewCascadeViewsToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.viewCascadeViewsToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
             this.viewCascadeViewsToolStripMenuItem.Text = "Cascade views";
             this.viewCascadeViewsToolStripMenuItem.Click += new System.EventHandler(this.viewCascadeToolStripMenuItem_Click);
             // 
@@ -124,6 +126,13 @@
             this.numberOfVehiclesStripStatusLabel.Size = new System.Drawing.Size(207, 17);
             this.numberOfVehiclesStripStatusLabel.Text = "Number of vehicles in active view: {0} ";
             // 
+            // viewTabularToolStripMenuItem
+            // 
+            this.viewTabularToolStripMenuItem.Name = "viewTabularToolStripMenuItem";
+            this.viewTabularToolStripMenuItem.Size = new System.Drawing.Size(152, 22);
+            this.viewTabularToolStripMenuItem.Text = "Tabular views";
+            this.viewTabularToolStripMenuItem.Click += new System.EventHandler(this.viewTabularToolStripMenuItem_Click);
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -158,13 +167,7 @@
         private System.Windows.Forms.StatusStrip mainStatusStrip;
         private System.Windows.Forms.ToolStripStatusLabel numberOfVehiclesStripStatusLabel;
         private System.Windows.Forms.ToolStripMenuItem viewCascadeViewsToolStripMenuItem;
-
-
-
-
-
-
-
+        private System.Windows.Forms.ToolStripMenuItem viewTabularToolStripMenuItem;
     }
 }
 
