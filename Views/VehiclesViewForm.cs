@@ -148,6 +148,9 @@ namespace Vehicles.Views
 
         private void filterMaxSpeedToolStripTextBox_TextChanged(object sender, EventArgs e)
         {
+            if (String.IsNullOrEmpty((sender as ToolStripTextBox).Text))
+                return;
+
             Int32 maxSpeed;
             if (Int32.TryParse((sender as ToolStripTextBox).Text, out maxSpeed))
             {
@@ -273,12 +276,7 @@ namespace Vehicles.Views
             if (filter == FilterMode.None)
                 return "";
 
-            var result = "Filter: Max Speed ";
-            if (filter == FilterMode.MaxSpeedBelow)
-                return result + "< 100km/h";
-            else if (filter == FilterMode.MaxSpeedAbove)
-                return result + ">= 100km/h";
-            return "";
+            return "Filter: Max Speed " + activeFilterToolStripMenuItem.Text;
         }
 
         private void unregisterEventHandlers()
