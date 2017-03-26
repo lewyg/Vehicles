@@ -20,8 +20,9 @@ namespace Vehicles.Views
             MaxSpeedAbove = 1,
             MaxSpeedBelow = 2
         }
-        private ToolStripMenuItem activeFilterToolStripMenuItem;
 
+        private int filterMaxSpeed = 100;
+        private ToolStripMenuItem activeFilterToolStripMenuItem;
         private FilterMode activeFilterMode
         {
             get
@@ -36,9 +37,7 @@ namespace Vehicles.Views
         }
 
         public List<Vehicle> globalVehicles;
-
         private List<Vehicle> localVehicles;
-
         public List<Vehicle> filteredVehicles
         {
             get
@@ -46,9 +45,9 @@ namespace Vehicles.Views
                 var tempVehicles = localVehicles;
 
                 if (activeFilterMode == FilterMode.MaxSpeedAbove)
-                    tempVehicles = tempVehicles.Where(v => v.MaxSpeed >= 100).ToList();
+                    tempVehicles = tempVehicles.Where(v => v.MaxSpeed >= filterMaxSpeed).ToList();
                 else if (activeFilterMode == FilterMode.MaxSpeedBelow)
-                    tempVehicles = tempVehicles.Where(v => v.MaxSpeed < 100).ToList();
+                    tempVehicles = tempVehicles.Where(v => v.MaxSpeed < filterMaxSpeed).ToList();
                 return tempVehicles;
             }
         }
@@ -145,6 +144,32 @@ namespace Vehicles.Views
             activeFilterToolStripMenuItem = (ToolStripMenuItem)sender;
             activeFilterToolStripMenuItem.CheckState = CheckState.Checked;
             refreshView();
+        }
+
+        private void filterMaxSpeedToolStripTextBox_TextChanged(object sender, EventArgs e)
+        {
+            Int32 maxSpeed;
+            if (Int32.TryParse((sender as ToolStripTextBox).Text, out maxSpeed))
+            {
+                if (maxSpeed > 0)
+                {
+                    filterMaxSpeed = maxSpeed;
+                    updateFilterMaxSpeed();
+                }
+                else
+                {
+                    MessageBox.Show("Max Speed has to be greater than 0!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+                }
+            }
+            else
+            {
+                MessageBox.Show("Not a number!", "Error", MessageBoxButtons.OK, MessageBoxIcon.Error);
+            }
+        }
+
+        private void vehiclesListView_DoubleClick(object sender, EventArgs e)
+        {
+            modifyVehicle();
         }
 
         private void refreshView()
@@ -264,9 +289,16 @@ namespace Vehicles.Views
             parent.VehicleModified -= vehicles_Modify;
         }
 
-        private void vehiclesListView_DoubleClick(object sender, EventArgs e)
+        private void updateFilterMaxSpeed()
         {
-            modifyVehicle();
+            filterMaxSpeedAboveToolStripMenuItem.Text = ">= " + filterMaxSpeed + " km/h";
+            filterMaxSpeedBelowToolStripMenuItem.Text = "< " + filterMaxSpeed + " km/h";
+            refreshView();
+        }
+
+        private void filterMaxSpeedToolStripTextBox_Validating(object sender, CancelEventArgs e)
+        {
+
         }
     }
 }
