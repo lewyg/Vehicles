@@ -21,7 +21,6 @@ namespace Vehicles.Forms
         {
             if (VehicleAdded != null)
                 VehicleAdded(vehicle, EventArgs.Empty);
-            updateStatusBar();
         }
 
         public EventHandler VehicleRemoved;
@@ -29,7 +28,6 @@ namespace Vehicles.Forms
         {
             if (VehicleRemoved != null)
                 VehicleRemoved(vehicle, EventArgs.Empty);
-            updateStatusBar();
         }
 
         public EventHandler VehicleModified;
@@ -37,7 +35,6 @@ namespace Vehicles.Forms
         {
             if (VehicleModified != null)
                 VehicleModified(vehicle, EventArgs.Empty);
-            updateStatusBar();
         }
 
         private void loadVehicles()
@@ -90,17 +87,8 @@ namespace Vehicles.Forms
             var view = new VehiclesViewForm(vehicles);
             view.MdiParent = this;
 
-            addEventHandlers(view);
-
             view.Show();
             OnMdiChildrenNumberChanged(MdiChildren.Count());
-        }
-
-        private void addEventHandlers(VehiclesViewForm view)
-        {
-            VehicleAdded += view.vehicles_Add;
-            VehicleRemoved += view.vehicles_Remove;
-            VehicleModified += view.vehicles_Modify;
         }
 
         private void closeActiveView()
@@ -111,22 +99,6 @@ namespace Vehicles.Forms
                 view.Dispose();
                 OnMdiChildrenNumberChanged(MdiChildren.Count());
             }
-        }
-
-        public void updateStatusBar()
-        {
-            var view = ActiveMdiChild;
-            if (view != null)
-            {
-                numberOfVehiclesStripStatusLabel.Text =
-                    String.Format("Number of vehicles in active view: {0}",
-                                  (view as VehiclesViewForm).filteredVehicles.Count);
-            }
-        }
-
-        private void MainForm_MdiChildActivate(object sender, EventArgs e)
-        {
-            updateStatusBar();
         }
 
         private void viewCascadeToolStripMenuItem_Click(object sender, EventArgs e)

@@ -44,7 +44,10 @@
             this.filterMaxSpeedNoneToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.filterMaxSpeedToolStripTextBox = new System.Windows.Forms.ToolStripTextBox();
             this.vehiclesMenuStrip = new System.Windows.Forms.MenuStrip();
+            this.vehiclesStatusStrip = new System.Windows.Forms.StatusStrip();
+            this.numberOfVehiclesStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.vehiclesMenuStrip.SuspendLayout();
+            this.vehiclesStatusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // vehiclesListView
@@ -183,20 +186,41 @@
             this.vehiclesMenuStrip.TabIndex = 1;
             this.vehiclesMenuStrip.Text = "Vehicles";
             // 
+            // vehiclesStatusStrip
+            // 
+            this.vehiclesStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
+            this.numberOfVehiclesStripStatusLabel});
+            this.vehiclesStatusStrip.Location = new System.Drawing.Point(0, 239);
+            this.vehiclesStatusStrip.Name = "vehiclesStatusStrip";
+            this.vehiclesStatusStrip.Size = new System.Drawing.Size(426, 22);
+            this.vehiclesStatusStrip.TabIndex = 2;
+            this.vehiclesStatusStrip.Text = "Number of vehicles";
+            // 
+            // numberOfVehiclesStripStatusLabel
+            // 
+            this.numberOfVehiclesStripStatusLabel.MergeIndex = 1;
+            this.numberOfVehiclesStripStatusLabel.Name = "numberOfVehiclesStripStatusLabel";
+            this.numberOfVehiclesStripStatusLabel.Size = new System.Drawing.Size(187, 17);
+            this.numberOfVehiclesStripStatusLabel.Text = "Number of vehicles in active view:";
+            // 
             // VehiclesViewForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(426, 261);
+            this.Controls.Add(this.vehiclesStatusStrip);
             this.Controls.Add(this.vehiclesListView);
             this.Controls.Add(this.vehiclesMenuStrip);
             this.MainMenuStrip = this.vehiclesMenuStrip;
             this.Name = "VehiclesViewForm";
             this.Text = "VehiclesList";
+            this.Activated += new System.EventHandler(this.VehiclesViewForm_Activated);
             this.FormClosing += new System.Windows.Forms.FormClosingEventHandler(this.VehiclesViewForm_FormClosing);
             this.Load += new System.EventHandler(this.VehiclesViewForm_Load);
             this.vehiclesMenuStrip.ResumeLayout(false);
             this.vehiclesMenuStrip.PerformLayout();
+            this.vehiclesStatusStrip.ResumeLayout(false);
+            this.vehiclesStatusStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -220,5 +244,7 @@
         private System.Windows.Forms.ToolStripMenuItem filterMaxSpeedNoneToolStripMenuItem;
         private System.Windows.Forms.MenuStrip vehiclesMenuStrip;
         private System.Windows.Forms.ToolStripTextBox filterMaxSpeedToolStripTextBox;
+        private System.Windows.Forms.ToolStripStatusLabel numberOfVehiclesStripStatusLabel;
+        private System.Windows.Forms.StatusStrip vehiclesStatusStrip;
     }
 }

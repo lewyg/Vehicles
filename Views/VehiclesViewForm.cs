@@ -94,6 +94,7 @@ namespace Vehicles.Views
 
         private void VehiclesViewForm_Load(object sender, EventArgs e)
         {
+            registerEventHandlers();
             activeFilterToolStripMenuItem = filterMaxSpeedNoneToolStripMenuItem;
             refreshView();
         }
@@ -171,13 +172,14 @@ namespace Vehicles.Views
             {
                 addVehicleToView(vehicle);
             }
-            (MdiParent as MainForm).updateStatusBar();
+            updateStatusBar();
             Text = "VehiclesList " + getFilterModeString(activeFilterMode);
         }
 
         private void clearView()
         {
             vehiclesListView.Items.Clear();
+            updateStatusBar();
         }
 
         private void addVehicle()
@@ -201,6 +203,7 @@ namespace Vehicles.Views
             item.Tag = vehicle;
             updateItemInView(item);
             vehiclesListView.Items.Insert(index, item);
+            updateStatusBar();
         }
 
         private void removeVehicle()
@@ -218,6 +221,7 @@ namespace Vehicles.Views
         private void removeVehicleFromView(Int32 index)
         {
             vehiclesListView.Items.RemoveAt(index);
+            updateStatusBar();
         }
 
         private void modifyVehicle()
@@ -242,6 +246,7 @@ namespace Vehicles.Views
             var vehicle = filteredVehicles[index];
             item.Tag = vehicle;
             updateItemInView(item);
+            updateStatusBar();
         }
 
         private void updateItemInView(ListViewItem item)
@@ -279,6 +284,14 @@ namespace Vehicles.Views
             return "Filter: Max Speed " + activeFilterToolStripMenuItem.Text;
         }
 
+        private void registerEventHandlers()
+        {
+            var parent = MdiParent as MainForm;
+            parent.VehicleAdded += vehicles_Add;
+            parent.VehicleRemoved += vehicles_Remove;
+            parent.VehicleModified += vehicles_Modify;
+        }
+
         private void unregisterEventHandlers()
         {
             var parent = MdiParent as MainForm;
@@ -292,6 +305,21 @@ namespace Vehicles.Views
             filterMaxSpeedAboveToolStripMenuItem.Text = ">= " + filterMaxSpeed + " km/h";
             filterMaxSpeedBelowToolStripMenuItem.Text = "< " + filterMaxSpeed + " km/h";
             refreshView();
+        }
+
+
+        public void updateStatusBar()
+        {
+                numberOfVehiclesStripStatusLabel.Text =
+                    String.Format("Number of vehicles in active view: {0}",
+                                  filteredVehicles.Count);
+        }
+
+        private void VehiclesViewForm_Activated(object sender, EventArgs e)
+        {
+            var parent = MdiParent as MainForm;
+            ToolStripManager.RevertMerge(parent.mainStatusStrip);
+            ToolStripManager.Merge(vehiclesStatusStrip, parent.mainStatusStrip);
         }
     }
 }
