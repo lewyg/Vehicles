@@ -21,23 +21,20 @@ namespace Vehicles.Forms
         {
             if (VehicleAdded != null)
                 VehicleAdded(vehicle, EventArgs.Empty);
-            updateStatusBar();
         }
 
         public EventHandler VehicleRemoved;
-        public void OnVehicleRemoved(int index)
+        public void OnVehicleRemoved(Vehicle vehicle)
         {
             if (VehicleRemoved != null)
-                VehicleRemoved(index, EventArgs.Empty);
-            updateStatusBar();
+                VehicleRemoved(vehicle, EventArgs.Empty);
         }
 
         public EventHandler VehicleModified;
-        public void OnVehicleModified(int index)
+        public void OnVehicleModified(Vehicle vehicle)
         {
             if (VehicleModified != null)
-                VehicleModified(index, EventArgs.Empty);
-            updateStatusBar();
+                VehicleModified(vehicle, EventArgs.Empty);
         }
 
         private void loadVehicles()
@@ -90,17 +87,8 @@ namespace Vehicles.Forms
             var view = new VehiclesViewForm(vehicles);
             view.MdiParent = this;
 
-            addEventHandlers(view);
-
             view.Show();
             OnMdiChildrenNumberChanged(MdiChildren.Count());
-        }
-
-        private void addEventHandlers(VehiclesViewForm view)
-        {
-            VehicleAdded += view.vehicles_Add;
-            VehicleRemoved += view.vehicles_Remove;
-            VehicleModified += view.vehicles_Modify;
         }
 
         private void closeActiveView()
@@ -113,25 +101,14 @@ namespace Vehicles.Forms
             }
         }
 
-        public void updateStatusBar()
-        {
-            var view = ActiveMdiChild;
-            if (view != null)
-            {
-                numberOfVehiclesStripStatusLabel.Text =
-                    String.Format("Number of vehicles in active view: {0}",
-                                  (view as VehiclesViewForm).filteredVehicles.Count);
-            }
-        }
-
-        private void MainForm_MdiChildActivate(object sender, EventArgs e)
-        {
-            updateStatusBar();
-        }
-
         private void viewCascadeToolStripMenuItem_Click(object sender, EventArgs e)
         {
             LayoutMdi(MdiLayout.Cascade);
+        }
+
+        private void viewTabularToolStripMenuItem_Click(object sender, EventArgs e)
+        {
+            LayoutMdi(MdiLayout.TileHorizontal);
         }
     }
 }

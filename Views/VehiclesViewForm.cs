@@ -36,13 +36,12 @@ namespace Vehicles.Views
             }
         }
 
-        public List<Vehicle> globalVehicles;
-        private List<Vehicle> localVehicles;
+        public List<Vehicle> vehicles;
         public List<Vehicle> filteredVehicles
         {
             get
             {
-                var tempVehicles = localVehicles;
+                var tempVehicles = vehicles;
 
                 if (activeFilterMode == FilterMode.MaxSpeedAbove)
                     tempVehicles = tempVehicles.Where(v => v.MaxSpeed >= filterMaxSpeed).ToList();
@@ -55,56 +54,47 @@ namespace Vehicles.Views
         public void vehicles_Add(object sender, EventArgs e)
         {
             var vehicle = (Vehicle)sender;
-            localVehicles.Add(vehicle);
+            vehicles.Add(vehicle);
             if (filteredVehicles.Contains(vehicle))
                 addVehicleToView(vehicle);
         }
 
         public void vehicles_Remove(object sender, EventArgs e)
         {
-            var index = (Int32)sender;
-            var vehicle = localVehicles[index];
-            var indexInFilteredVehicles = filteredVehicles.IndexOf(vehicle);
-            if (indexInFilteredVehicles != -1)
-                removeVehicleFromView(indexInFilteredVehicles);
-            localVehicles.RemoveAt(index);
+            var vehicle = (Vehicle)sender;
+            var index = getIndexInView(vehicle);
+            if (getIndexInView(vehicle) != -1)
+                removeVehicleFromView(index);
         }
 
         public void vehicles_Modify(object sender, EventArgs e)
         {
-            var index = (Int32)sender;
-            var vehicleLocal = localVehicles[index];
-            var vehicleGlobal = globalVehicles[index];
-            var indexInLocalFilteredVehicles = filteredVehicles.IndexOf(vehicleLocal);
-
-            localVehicles[index] = vehicleGlobal;
-
-            var indexInGlobalFilteredVehicles = filteredVehicles.IndexOf(vehicleGlobal);
-
-            if (indexInLocalFilteredVehicles != -1)
+            var vehicle = (Vehicle)sender;
+            var index = getIndexInView(vehicle);
+            if (getIndexInView(vehicle) != -1)
             {
                 if (filteredVehicles.Count < vehiclesListView.Items.Count)
-                    removeVehicleFromView(indexInLocalFilteredVehicles);
+                    removeVehicleFromView(index);
                 else
-                    modifyVehicleInView(indexInLocalFilteredVehicles);
+                    modifyVehicleInView(index);
             }
-
-            if (indexInGlobalFilteredVehicles != -1)
+            else if (filteredVehicles.Count > vehiclesListView.Items.Count)
             {
-                if (filteredVehicles.Count > vehiclesListView.Items.Count)
-                    insertVehicleToView(vehicleGlobal, indexInGlobalFilteredVehicles);
+                index = getIndexOfMissingVehicleInView();
+                if (index != -1)
+                    insertVehicleToView(filteredVehicles[index], index);
             }
         }
 
         public VehiclesViewForm(List<Vehicle> _vehicles)
         {
-            globalVehicles = _vehicles;
-            localVehicles = _vehicles.Select(v => new Vehicle(v)).ToList();
+            vehicles = _vehicles;
             InitializeComponent();
         }
 
         private void VehiclesViewForm_Load(object sender, EventArgs e)
         {
+            registerEventHandlers();
             activeFilterToolStripMenuItem = filterMaxSpeedNoneToolStripMenuItem;
             refreshView();
         }
@@ -182,13 +172,14 @@ namespace Vehicles.Views
             {
                 addVehicleToView(vehicle);
             }
-            (MdiParent as MainForm).updateStatusBar();
+            updateStatusBar();
             Text = "VehiclesList " + getFilterModeString(activeFilterMode);
         }
 
         private void clearView()
         {
             vehiclesListView.Items.Clear();
+            updateStatusBar();
         }
 
         private void addVehicle()
@@ -196,7 +187,7 @@ namespace Vehicles.Views
             var frm = new VehicleForm();
             if (frm.ShowDialog() == DialogResult.OK)
             {
-                globalVehicles.Add(frm.vehicle);
+                vehicles.Add(frm.vehicle);
                 (MdiParent as MainForm).OnVehicleAdded(frm.vehicle);
             }
         }
@@ -212,8 +203,8 @@ namespace Vehicles.Views
             item.Tag = vehicle;
             updateItemInView(item);
             vehiclesListView.Items.Insert(index, item);
+            updateStatusBar();
         }
-
 
         private void removeVehicle()
         {
@@ -221,17 +212,16 @@ namespace Vehicles.Views
                 return;
 
             var item = vehiclesListView.SelectedItems[0];
-            var indexInFilteredVehicles = vehiclesListView.Items.IndexOf(item);
-            var vehicle = filteredVehicles[indexInFilteredVehicles];
-            var index = localVehicles.IndexOf(vehicle);
+            var index = vehicles.IndexOf((Vehicle)item.Tag);
 
-            globalVehicles.RemoveAt(index);
-            (MdiParent as MainForm).OnVehicleRemoved(index);
+            vehicles.RemoveAt(index);
+            (MdiParent as MainForm).OnVehicleRemoved((Vehicle)item.Tag);
         }
 
         private void removeVehicleFromView(Int32 index)
         {
             vehiclesListView.Items.RemoveAt(index);
+            updateStatusBar();
         }
 
         private void modifyVehicle()
@@ -240,15 +230,13 @@ namespace Vehicles.Views
                 return;
 
             var item = vehiclesListView.SelectedItems[0];
-            var indexInFilteredVehicles = vehiclesListView.Items.IndexOf(item);
-            var vehicle = filteredVehicles[indexInFilteredVehicles];
-            var index = localVehicles.IndexOf(vehicle);
+            var index = vehicles.IndexOf((Vehicle)item.Tag);
 
-            var frm = new VehicleForm(globalVehicles[index]);
+            var frm = new VehicleForm(vehicles[index]);
             if (frm.ShowDialog() == DialogResult.OK)
             {
-                globalVehicles[index] = frm.vehicle;
-                (MdiParent as MainForm).OnVehicleModified(index);
+                vehicles[index] = frm.vehicle;
+                (MdiParent as MainForm).OnVehicleModified((Vehicle)item.Tag);
             }
         }
 
@@ -258,6 +246,7 @@ namespace Vehicles.Views
             var vehicle = filteredVehicles[index];
             item.Tag = vehicle;
             updateItemInView(item);
+            updateStatusBar();
         }
 
         private void updateItemInView(ListViewItem item)
@@ -271,12 +260,36 @@ namespace Vehicles.Views
             item.SubItems[3].Text = ((VehicleType)vehicle.Type).ToString();
         }
 
+        private Int32 getIndexInView(Vehicle vehicle)
+        {
+            foreach (ListViewItem item in vehiclesListView.Items)
+                if (item.Tag == vehicle)
+                    return vehiclesListView.Items.IndexOf(item);
+            return -1;
+        }
+
+        private Int32 getIndexOfMissingVehicleInView()
+        {
+            foreach (ListViewItem item in vehiclesListView.Items)
+                if (item.Tag != filteredVehicles[item.Index])
+                    return item.Index;
+            return -1;
+        }
+
         private string getFilterModeString(FilterMode filter)
         {
             if (filter == FilterMode.None)
                 return "";
 
             return "Filter: Max Speed " + activeFilterToolStripMenuItem.Text;
+        }
+
+        private void registerEventHandlers()
+        {
+            var parent = MdiParent as MainForm;
+            parent.VehicleAdded += vehicles_Add;
+            parent.VehicleRemoved += vehicles_Remove;
+            parent.VehicleModified += vehicles_Modify;
         }
 
         private void unregisterEventHandlers()
@@ -294,9 +307,19 @@ namespace Vehicles.Views
             refreshView();
         }
 
-        private void filterMaxSpeedToolStripTextBox_Validating(object sender, CancelEventArgs e)
-        {
 
+        public void updateStatusBar()
+        {
+                numberOfVehiclesStripStatusLabel.Text =
+                    String.Format("Number of vehicles in active view: {0}",
+                                  filteredVehicles.Count);
+        }
+
+        private void VehiclesViewForm_Activated(object sender, EventArgs e)
+        {
+            var parent = MdiParent as MainForm;
+            ToolStripManager.RevertMerge(parent.mainStatusStrip);
+            ToolStripManager.Merge(vehiclesStatusStrip, parent.mainStatusStrip);
         }
     }
 }

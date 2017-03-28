@@ -34,12 +34,11 @@
             this.viewNewToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewCloseToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.viewCascadeViewsToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
+            this.viewTabularToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.helpAboutToolStripMenuItem = new System.Windows.Forms.ToolStripMenuItem();
             this.mainStatusStrip = new System.Windows.Forms.StatusStrip();
-            this.numberOfVehiclesStripStatusLabel = new System.Windows.Forms.ToolStripStatusLabel();
             this.mainMenuStrip.SuspendLayout();
-            this.mainStatusStrip.SuspendLayout();
             this.SuspendLayout();
             // 
             // mainMenuStrip
@@ -66,7 +65,8 @@
             this.viewsToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.viewNewToolStripMenuItem,
             this.viewCloseToolStripMenuItem,
-            this.viewCascadeViewsToolStripMenuItem});
+            this.viewCascadeViewsToolStripMenuItem,
+            this.viewTabularToolStripMenuItem});
             this.viewsToolStripMenuItem.Name = "viewsToolStripMenuItem";
             this.viewsToolStripMenuItem.Size = new System.Drawing.Size(49, 20);
             this.viewsToolStripMenuItem.Text = "Views";
@@ -92,6 +92,13 @@
             this.viewCascadeViewsToolStripMenuItem.Text = "Cascade views";
             this.viewCascadeViewsToolStripMenuItem.Click += new System.EventHandler(this.viewCascadeToolStripMenuItem_Click);
             // 
+            // viewTabularToolStripMenuItem
+            // 
+            this.viewTabularToolStripMenuItem.Name = "viewTabularToolStripMenuItem";
+            this.viewTabularToolStripMenuItem.Size = new System.Drawing.Size(150, 22);
+            this.viewTabularToolStripMenuItem.Text = "Tabular views";
+            this.viewTabularToolStripMenuItem.Click += new System.EventHandler(this.viewTabularToolStripMenuItem_Click);
+            // 
             // helpToolStripMenuItem
             // 
             this.helpToolStripMenuItem.DropDownItems.AddRange(new System.Windows.Forms.ToolStripItem[] {
@@ -110,19 +117,11 @@
             // 
             // mainStatusStrip
             // 
-            this.mainStatusStrip.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
-            this.numberOfVehiclesStripStatusLabel});
             this.mainStatusStrip.Location = new System.Drawing.Point(0, 540);
             this.mainStatusStrip.Name = "mainStatusStrip";
             this.mainStatusStrip.Size = new System.Drawing.Size(784, 22);
             this.mainStatusStrip.TabIndex = 10;
-            this.mainStatusStrip.Text = "Numboe of vehicles";
-            // 
-            // numberOfVehiclesStripStatusLabel
-            // 
-            this.numberOfVehiclesStripStatusLabel.Name = "numberOfVehiclesStripStatusLabel";
-            this.numberOfVehiclesStripStatusLabel.Size = new System.Drawing.Size(207, 17);
-            this.numberOfVehiclesStripStatusLabel.Text = "Number of vehicles in active view: {0} ";
+            this.mainStatusStrip.Text = "Number of vehicles";
             // 
             // MainForm
             // 
@@ -136,11 +135,8 @@
             this.Name = "MainForm";
             this.Text = "Vehicles";
             this.Load += new System.EventHandler(this.MainForm_Load);
-            this.MdiChildActivate += new System.EventHandler(this.MainForm_MdiChildActivate);
             this.mainMenuStrip.ResumeLayout(false);
             this.mainMenuStrip.PerformLayout();
-            this.mainStatusStrip.ResumeLayout(false);
-            this.mainStatusStrip.PerformLayout();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -155,16 +151,9 @@
         private System.Windows.Forms.ToolStripMenuItem helpToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem helpAboutToolStripMenuItem;
         private System.Windows.Forms.ToolStripMenuItem mdiToolStripMenuItem;
-        private System.Windows.Forms.StatusStrip mainStatusStrip;
-        private System.Windows.Forms.ToolStripStatusLabel numberOfVehiclesStripStatusLabel;
         private System.Windows.Forms.ToolStripMenuItem viewCascadeViewsToolStripMenuItem;
-
-
-
-
-
-
-
+        private System.Windows.Forms.ToolStripMenuItem viewTabularToolStripMenuItem;
+        public System.Windows.Forms.StatusStrip mainStatusStrip;
     }
 }
 
